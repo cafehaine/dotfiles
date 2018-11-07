@@ -71,4 +71,4 @@ reset="$(tput sgr0)"
 
 PS1='\$[\[$(errcolor)\]$(centertext 3 $?)\[${reset}\]] \A $(currdir)> '
 
-source .imports
+source ~/.imports

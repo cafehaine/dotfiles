@@ -2,7 +2,7 @@
 session_start();
 
 function loadClass($class) {
-	require preg_replace("/\\\\/","/",strtolower($class).'.inc.php');
+	require str_replace("\\","/",strtolower($class).'.inc.php');
 }
 
 spl_autoload_register('loadClass');

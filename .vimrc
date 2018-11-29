@@ -13,3 +13,6 @@ function PrefillTemplate()
 endfunction
 
 :autocmd BufNewFile * :call PrefillTemplate()
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+:autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/

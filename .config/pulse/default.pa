@@ -1,0 +1,7 @@
+### Load system-wide config
+.include /etc/pulse/default.pa
+
+### DBus protocol, used by coffeestatus
+.ifexists module-dbus-protocol.so
+load-module module-dbus-protocol
+.endif

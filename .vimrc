@@ -1,3 +1,7 @@
+"================
+" File templates
+"================
+
 function PrefillTemplate()
 	" exceptions based on the file extension
 	let exceptions = {'h':'c_header', 'hpp':'cpp_header', 'inc.php':'php_class'}
@@ -14,5 +18,12 @@ endfunction
 
 :autocmd BufNewFile * :call PrefillTemplate()
 
+" Make find recursive in path
+set path+=**
+
+" Pretty menu on tab completion
+set wildmenu
+
+" Highlight trailing whitespaces
 highlight ExtraWhitespace ctermbg=red guibg=red
 :autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/

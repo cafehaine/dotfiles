@@ -1,0 +1,8 @@
+[
+    {
+        "iconPath": ":duckduckgo",
+        "name": "DuckDuckGo",
+        "trigger": "dd ",
+        "url": "https://duckduckgo.com/?q=%s"
+    }
+]

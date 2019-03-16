@@ -27,3 +27,6 @@ set wildmenu
 " Highlight trailing whitespaces
 highlight ExtraWhitespace ctermbg=red guibg=red
 :autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+
+" Enable mouse selection
+set mouse=a

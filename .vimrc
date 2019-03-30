@@ -18,15 +18,50 @@ endfunction
 
 :autocmd BufNewFile * :call PrefillTemplate()
 
-" Make find recursive in path
-set path+=**
+"================
+" General config
+"================
 
-" Pretty menu on tab completion
-set wildmenu
+syntax enable "Syntax coloring
+set ai "Auto indent
+set nu "Line numbering
+set laststatus=2 "Always show status
 
-" Highlight trailing whitespaces
-highlight ExtraWhitespace ctermbg=red guibg=red
-:autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+"Override non breaking space, tabulation and trailing whitespace display
+set listchars=nbsp:␣,tab:\│\ ,trail:─
+set list
 
-" Enable mouse selection
-set mouse=a
+set nocompatible
+set backspace=indent,eol,start
+
+" Set the tab size to 8
+set tabstop=8
+set shiftwidth=8
+set noexpandtab
+
+" Highlight column 81
+highlight ColorColumn ctermbg=black
+set colorcolumn=81
+
+set title titlestring=%F%r%w%h\ -\ vim "Change title
+
+set path+=** "Make find recursive
+
+set wildmenu "Pretty menu on tab completion
+
+set mouse=a "Enable mouse selection
+
+"========================
+" Color and status stuff
+"========================
+
+highlight LineNr	ctermfg=grey ctermbg=black
+" Format the status line
+hi User1 ctermbg=None	ctermfg=white
+hi User2 ctermbg=None	ctermfg=darkgrey
+
+" Statusline:
+" [path] - [hovered char as hex] ---- [line/total lines] - [column]
+set fillchars=stl:-
+set statusline=%2*%1*%F%r%w%h%2*\ -\ %1*char:%02B%2*\ %=\ %1*l:%3l\/%3L%2*\ -\ %1*c:%3c%2*
+

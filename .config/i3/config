@@ -26,14 +26,16 @@ bindsym $mod+l		exec "systemctl suspend && i3lock -c 000000 -e -f"
 bindsym Print		exec --no-startup-id xfce4-screenshooter -c -f
 bindsym $mod+Print	exec xfce4-screenshooter
 
-# Musique
+# Music (mpd)
 bindsym XF86AudioPrev exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 prev
 bindsym XF86AudioNext exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 next
 bindsym XF86AudioStop exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 stop
 bindsym XF86AudioPlay exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 toggle
 bindsym Mod1+Control+Tab exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 toggle # MX Master thumb "key"
+bindsym Shift+XF86AudioLowerVolume	exec --no-startup-id mpc -h "127.0.0.1" -p 6600 volume -2
+bindsym Shift+XF86AudioRaiseVolume	exec --no-startup-id mpc -h "127.0.0.1" -p 6600 volume +2
 
-# Volume
+# Volume (pulseaudio)
 bindsym XF86AudioLowerVolume	exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
 bindsym XF86AudioRaiseVolume	exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
 bindsym XF86AudioMute		exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle

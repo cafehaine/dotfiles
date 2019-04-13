@@ -1,3 +1,8 @@
 $include /etc/inputrc
 
+# Case-insensitive completion
 set completion-ignore-case on
+# Make - and _ interchangeable for completion
+set completion-map-case on
+# Colored completion suggestions
+set colored-stats on

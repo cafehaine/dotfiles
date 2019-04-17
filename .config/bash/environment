@@ -1,0 +1,38 @@
+############
+# Luarocks #
+############
+
+export LUA_PATH="${HOME}/.luarocks/share/lua/5.3/?.lua;${HOME}/.luarocks/share/lua/5.3/?/init.lua;/usr/share/lua/5.3/?.lua;/usr/share/lua/5.3/?/init.lua;/usr/lib/lua/5.3/?.lua;/usr/lib/lua/5.3/?/init.lua;./?.lua;./?/init.lua"
+export LUA_CPATH="${HOME}/.luarocks/lib/lua/5.3/?.so;/usr/lib/lua/5.3/?.so;/usr/lib/lua/5.3/loadall.so;./?.so"
+
+########
+# Java #
+########
+
+# Antialiasing
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=gasp -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+# Fix for tiling window manager
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+########
+# Less #
+########
+
+# Shamefully copied from the Arch Wiki: https://wiki.archlinux.org/index.php/Color_output_in_console#less
+export LESS=-R
+export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
+export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
+export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
+export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+
+################
+# Random stuff #
+################
+
+export PATH=~/.local/bin:$PATH
+
+export EDITOR="vim"
+export XZ_OPT="--threads=0"

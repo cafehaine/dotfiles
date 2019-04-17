@@ -1,0 +1,48 @@
+__centertext()
+{
+	local padding=$(( $1 - ${#2} ))
+	local before=$(( $padding / 2 ))
+	local after=$(( $padding - $before ))
+	if [ $before -gt 0 ]; then
+		printf ' %.0s' $(seq 1 $before)
+	fi
+	echo -n $2
+	if [ $after -gt 0 ]; then
+		printf ' %.0s' $(seq 1 $after)
+	fi
+	echo ''
+}
+
+__currdir()
+{
+	local pwd
+	if [ "$PWD" == "/" ]; then
+		pwd="/"
+	elif [ "$PWD" == $HOME ]; then
+		pwd="~"
+	else
+		pwd=${PWD##*/}
+	fi
+	local len=${#pwd}
+	if [ $len -gt 11 ]; then
+		pwd=${pwd:0:10}.
+	elif  [ $len -lt 11 ]; then
+		pwd=$(__centertext 11 "$pwd")
+	fi
+	echo $pwd
+}
+
+__errcolor()
+{
+	LASTERR=$?
+	if [ $LASTERR -eq 0 ]; then
+		tput setaf 2
+	else
+		tput setaf 1
+	fi
+	exit $LASTERR
+}
+
+__reset="$(tput sgr0)"
+
+PS1='\$[\[$(__errcolor)\]$(__centertext 3 $?)\[${__reset}\]] \A $(__currdir)> '

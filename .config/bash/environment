@@ -35,4 +35,4 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 export PATH=~/.local/bin:$PATH
 
 export EDITOR="vim"
-export XZ_OPT="--threads=0"
+export XZ_OPT="--threads=$__threads"

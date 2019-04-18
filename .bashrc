@@ -22,6 +22,9 @@ else
 	tput sgr0
 fi
 
+# Used in sourced files to determine the max number of threads to use
+__threads="$(nproc --ignore 1)"
+
 # Environment
 
 source ~/.config/bash/environment

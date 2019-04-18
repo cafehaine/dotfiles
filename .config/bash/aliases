@@ -1,3 +1,4 @@
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias diff="diff --color=auto"
+alias make="make --jobs=$__threads"

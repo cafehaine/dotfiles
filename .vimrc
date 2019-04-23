@@ -16,7 +16,9 @@ function PrefillTemplate()
 	endif
 endfunction
 
-:autocmd BufNewFile * :call PrefillTemplate()
+filetype on
+
+autocmd BufNewFile * call PrefillTemplate()
 
 "================
 " General config

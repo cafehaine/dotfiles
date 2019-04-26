@@ -1,0 +1,47 @@
+{
+    "layer": "top",
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": [],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "clock", "tray"],
+    "sway/workspaces": {
+        "disable-scroll": true
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "tray": {
+        "icon-size": 24,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%a %b %d %H:%M}",
+        "tooltip-format": "{:%Y-%m-%d %H:%M}",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format": " {usage:3}%"
+    },
+    "memory": {
+        "format": " {:3}%"
+    },
+    "battery": {
+        "states": {
+            "critical": 15
+        },
+        "format": "{icon} {capacity:3}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        "format-wifi": " {essid:7}",
+        "format-ethernet": " {ifname:7}",
+        "format-disconnected": "⚠ Offline"
+    },
+    "pulseaudio": {
+        "scroll-step": 2,
+        "format": "&lt;){volume:3}%",
+        "format-muted": "&lt;X{volume:3}%"
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    }
+}

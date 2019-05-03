@@ -1,8 +1,8 @@
 * {
 	border: none;
 	border-radius: 0;
-	font-family: Fira Code, Roboto Mono, sans, sans-serif;
-	font-size: 15px;
+	font-family: Fira Code Light;
+	font-size: 17px;
 	min-height: 0;
 	color: white;
 }
@@ -13,7 +13,7 @@ window#waybar {
 }
 
 #clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #workspaces button {
-	padding: 4px 5px;
+	padding: 3px 5px 1px 5px;
 	margin: 0 5px;
 	background: transparent;
 	border-bottom: 3px #777 solid;
@@ -24,6 +24,12 @@ window#waybar {
 	border-color: white;
 }
 
+#workspaces button:hover {
+	/* override default style */
+	text-shadow: none;
+}
+
+/* Good and bad */
 #battery.charging {
 	border-color: #26A65B;
 }

@@ -1,8 +1,0 @@
-[
-	{"name":"df","blacklist":["boot"]},
-	{"name":"mem"},
-	{"name":"mpd"},
-	{"name":"pulse"},
-	{"name":"clock"}
-]
-

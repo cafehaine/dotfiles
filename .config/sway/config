@@ -7,6 +7,10 @@ workspace 1 output DP-0
 workspace $ws9 output HDMI-0
 workspace $ws10 output DVI-I-1
 
+#==========#
+# Bindings #
+#===========#
+
 # Control stuff
 set $mod Mod4
 focus_follows_mouse no
@@ -19,15 +23,14 @@ bindsym $mod+Escape	exec --no-startup-id albert show
 
 bindsym $mod+F1 exec imv -f ~/Pictures/bepo.png
 
-bindsym $mod+b		exec --no-startup-id firefox
-bindsym $mod+Shift+b	exec --no-startup-id firefox -private-window
-#bindsym $mod+b		exec --no-startup-id GDK_BACKEND=x11 firefox-developer-edition
-#bindsym $mod+Shift+b	exec --no-startup-id GDK_BACKEND=x11 firefox-developer-edition -private-window
+bindsym $mod+b		exec --no-startup-id firefox-developer-edition
+bindsym $mod+Shift+b	exec --no-startup-id firefox-developer-edition -private-window
 bindsym $mod+e		exec --no-startup-id GDK_BACKEND=x11 thunar
 bindsym $mod+l		exec "systemctl suspend && swaylock -i ~/Pictures/wallpaper.png --scaling fill -F"
 bindsym $mod+Print	exec grim -g "$(slurp -d)" - | wl-copy
 bindsym Print		exec grim - | wl-copy
 
+# touch launcher for my tablet
 bindcode --input-device=1:1:gpio-keys 133 exec python ~/Documents/Prog/tiling4tablets/TouchLauncher/script.py
 
 # Musique
@@ -107,31 +110,13 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# i3bar
+#=============#
+# Fancy stuff #
+#=============#
+
+# waybar
 bar {
-#	status_command	coffeestatus
 	swaybar_command waybar
-#	position	top
-#	tray_output	primary
-#	wheel_up_cmd	nop
-#	wheel_down_cmd	nop
-
-#	font pango: Fira Code 13
-#	strip_workspace_numbers yes
-
-#	i3bar_command i3bar -t
-
-#	colors {
-#		background #000000BE
-#		statusline #ffffff
-#		separator #444444
-#
-#		focused_workspace  #444444 #000000 #ffffff
-#		active_workspace   #000000 #000000 #888888
-#		inactive_workspace #000000 #000000 #888888
-#		urgent_workspace   #dd0000 #220000 #ffffff
-#		binding_mode       #dd0000 #220000 #ffffff
-#	}
 }
 
 # Gaps
@@ -144,28 +129,31 @@ smart_gaps on
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
-# Inputs
-input * {
-	xkb_layout fr
-	xkb_variant bepo
-}
-
-#touch {
-#    gesture exec netsurf {
-#        tap 5
-#    }
-#}
-
 # Outputs
 output * {
 	background ~/Pictures/wallpaper.png fill
 }
 
-# Inputs
-input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
+#========#
+# Inputs #
+#========#
 
-# Startup
+# set keyboard layout
+input * {
+	xkb_layout fr
+	xkb_variant bepo
+}
+# map my touchscreen
+input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
+# auto hide cursor after 5 seconds
+seat * hide_cursor 5000
+
+#=========#
+# Startup #
+#=========#
+
 exec_always Documents/Prog/tiling4tablets/AutoRotate/autorotate
 exec mako
 exec redshift -m wayland -t6500K:2400K
+exec QT_QPA_PLATFORM="" albert
 exec bash ~/.startup.sh

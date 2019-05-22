@@ -1,0 +1,171 @@
+#workspaces
+workspace_auto_back_and_forth yes
+set $ws9 "9:Messaging"
+set $ws10 "10:Video"
+
+workspace 1 output DP-0
+workspace $ws9 output HDMI-0
+workspace $ws10 output DVI-I-1
+
+# Control stuff
+set $mod Mod4
+focus_follows_mouse no
+floating_modifier $mod
+
+# Applications
+bindsym $mod+Return	exec qterminal
+bindsym $mod+Shift+q	kill
+bindsym $mod+Escape	exec --no-startup-id albert show
+
+bindsym $mod+F1 exec imv -f ~/Pictures/bepo.png
+
+bindsym $mod+b		exec --no-startup-id firefox
+bindsym $mod+Shift+b	exec --no-startup-id firefox -private-window
+#bindsym $mod+b		exec --no-startup-id GDK_BACKEND=x11 firefox-developer-edition
+#bindsym $mod+Shift+b	exec --no-startup-id GDK_BACKEND=x11 firefox-developer-edition -private-window
+bindsym $mod+e		exec --no-startup-id GDK_BACKEND=x11 thunar
+bindsym $mod+l		exec "systemctl suspend && swaylock -i ~/Pictures/wallpaper.png --scaling fill -F"
+bindsym $mod+Print	exec grim -g "$(slurp -d)" - | wl-copy
+bindsym Print		exec grim - | wl-copy
+
+bindcode --input-device=1:1:gpio-keys 133 exec python ~/Documents/Prog/tiling4tablets/TouchLauncher/script.py
+
+# Musique
+bindsym XF86AudioPrev exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 prev
+bindsym XF86AudioNext exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 next
+bindsym XF86AudioStop exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 stop
+bindsym XF86AudioPlay exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 toggle
+bindsym Mod1+Control+Tab exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 toggle # MX Master thumb "key"
+
+# Volume
+bindsym XF86AudioLowerVolume	exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym XF86AudioRaiseVolume	exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym XF86AudioMute		exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Change split direction
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+# Toggle fullscreen
+bindsym $mod+f fullscreen toggle
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Switch workspace
+bindsym $mod+quotedbl workspace 1
+bindsym $mod+guillemotleft workspace 2
+bindsym $mod+guillemotright workspace 3
+bindsym $mod+parenleft workspace 4
+bindsym $mod+parenright workspace 5
+bindsym $mod+at workspace 6
+bindsym $mod+plus workspace 7
+bindsym $mod+minus workspace 8
+bindsym $mod+slash workspace $ws9
+bindsym $mod+asterisk workspace $ws10
+
+# Move container
+#workspaces
+bindsym $mod+Shift+quotedbl move container to workspace 1
+bindsym $mod+Shift+guillemotleft move container to workspace 2
+bindsym $mod+Shift+guillemotright move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+at move container to workspace 6
+bindsym $mod+Shift+plus move container to workspace 7
+bindsym $mod+Shift+minus move container to workspace 8
+bindsym $mod+Shift+slash move container to workspace $ws9
+bindsym $mod+Shift+asterisk move container to workspace $ws10
+#relative
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+
+# Restart/exit i3
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exit
+
+# Resize mode
+mode "resize" {
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 2
+        bindsym Down resize grow height 10 px or 2
+        bindsym Up resize shrink height 10 px or 2
+        bindsym Right resize grow width 10 px or 2
+
+        bindsym Escape mode "default"
+        bindsym Return mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# i3bar
+bar {
+#	status_command	coffeestatus
+	swaybar_command waybar
+#	position	top
+#	tray_output	primary
+#	wheel_up_cmd	nop
+#	wheel_down_cmd	nop
+
+#	font pango: Fira Code 13
+#	strip_workspace_numbers yes
+
+#	i3bar_command i3bar -t
+
+#	colors {
+#		background #000000BE
+#		statusline #ffffff
+#		separator #444444
+#
+#		focused_workspace  #444444 #000000 #ffffff
+#		active_workspace   #000000 #000000 #888888
+#		inactive_workspace #000000 #000000 #888888
+#		urgent_workspace   #dd0000 #220000 #ffffff
+#		binding_mode       #dd0000 #220000 #ffffff
+#	}
+}
+
+# Gaps
+default_border none
+gaps inner 7
+gaps outer 0
+smart_gaps on
+
+# Fixes
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+# Inputs
+input * {
+	xkb_layout fr
+	xkb_variant bepo
+}
+
+#touch {
+#    gesture exec netsurf {
+#        tap 5
+#    }
+#}
+
+# Outputs
+output * {
+	background ~/Pictures/wallpaper.png fill
+}
+
+# Inputs
+input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
+
+# Startup
+exec_always Documents/Prog/tiling4tablets/AutoRotate/autorotate
+exec mako
+exec redshift -m wayland -t6500K:2400K
+exec bash ~/.startup.sh

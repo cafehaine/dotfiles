@@ -2,12 +2,16 @@
     "layer": "top",
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": [],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "clock", "tray"],
+    "modules-right": ["mpd","pulseaudio", "network", "cpu", "memory", "battery", "clock", "tray"],
     "sway/workspaces": {
         "disable-scroll": true
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
+    },
+    "mpd": {
+        "format": "{stateIcon} {artist:10} - {title:10}",
+        "state-icons": {"playing":"","paused":""}
     },
     "tray": {
         "icon-size": 24,

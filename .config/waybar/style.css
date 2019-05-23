@@ -12,7 +12,7 @@ window#waybar {
 	border-bottom: 3px solid rgba(0, 0, 0, 0.2);
 }
 
-#clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #workspaces button {
+#mpd, #clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #workspaces button {
 	padding: 3px 5px 1px 5px;
 	margin: 0 5px;
 	background: transparent;

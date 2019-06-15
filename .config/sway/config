@@ -145,8 +145,13 @@ input * {
 }
 # map my touchscreen
 input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
+
 # auto hide cursor after 5 seconds
 seat * hide_cursor 5000
+
+# scroll horizontally when holding shift
+bindsym Shift+button4 seat * cursor press button6
+bindsym Shift+button5 seat * cursor press button7
 
 #=========#
 # Startup #

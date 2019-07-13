@@ -8,3 +8,18 @@ alias df="df -h"
 
 # Shortcuts
 alias mkvenv="python -m venv .venv && source .venv/bin/activate"
+
+activate() {
+	local dir=$PWD
+	while [ "$dir" != "/" ]; do
+		if [ -f "$dir/.venv/bin/activate" ]; then
+			break
+		fi
+		dir=$(dirname $dir)
+	done
+	if [ -f "$dir/.venv/bin/activate" ]; then
+		source "$dir/.venv/bin/activate"
+	else
+		"Could not find .venv"
+	fi
+}

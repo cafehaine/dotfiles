@@ -129,19 +129,15 @@ bar {
 }
 
 # Gaps
-default_border none
-gaps inner 7
+default_border pixel 2
+hide_edge_borders smart
+gaps inner 5
 gaps outer 0
 smart_gaps on
 
 # Fixes
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
-
-# Outputs
-output * {
-	background ~/Pictures/wallpaper.png fill
-}
 
 #========#
 # Inputs #
@@ -167,7 +163,9 @@ bindsym Shift+button5 seat * cursor press button7
 #=========#
 
 exec_always Documents/Prog/tiling4tablets/AutoRotate/autorotate
+exec_always setrandom Pictures/Wallpapers/
 exec mako
 exec redshift -m wayland -t6500K:2400K
 exec QT_QPA_PLATFORM="" albert
 exec bash ~/.startup.sh
+exec clipman -d --max-items=8

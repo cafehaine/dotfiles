@@ -17,6 +17,7 @@ function PrefillTemplate()
 endfunction
 
 filetype on
+filetype indent on
 
 autocmd BufNewFile * call PrefillTemplate()
 

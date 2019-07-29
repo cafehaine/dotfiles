@@ -63,7 +63,14 @@ hi User1 ctermbg=None	ctermfg=white
 hi User2 ctermbg=None	ctermfg=darkgrey
 
 " Statusline:
-" [path] - [hovered char as hex] ---- [line/total lines] - [column]
+" [readonly][path] - [hovered char as hex] ---- [line/total lines] - [column]
 set fillchars=stl:-
-set statusline=%2*%1*%F%r%w%h%2*\ -\ %1*char:%02B%2*\ %=\ %1*l:%3l\/%3L%2*\ -\ %1*c:%3c%2*
+set statusline=%#Error#%r
+set statusline+=%1*%F
+set statusline+=%2*\ -\ %1*
+set statusline+=char:%02B
+set statusline+=%2*\ %=\ %1*
+set statusline+=l:%3l\/%3L
+set statusline+=%2*\ -\ %1*
+set statusline+=c:%3v
 

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Tor Browser (fr)
+Exec=/usr/bin/env GDK_BACKEND=x11 /usr/bin/tor-browser
+Icon=tor-browser
+Categories=Network;
+Comment=Anonymous browsing using Firefox and Tor

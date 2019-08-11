@@ -145,8 +145,9 @@ for_window [window_role="task_dialog"] floating enable
 
 # set keyboard layout
 input * {
-	xkb_layout fr
-	xkb_variant bepo
+	xkb_layout fr,fr
+	xkb_variant bepo,
+	xkb_options caps:none,grp:shifts_toggle,grp_led:caps
 }
 # map my touchscreen
 input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1

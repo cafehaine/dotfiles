@@ -38,3 +38,8 @@ export INPUTRC=~/.config/readline
 
 export EDITOR="vim"
 export XZ_OPT="--threads=$__threads"
+
+export GTK_THEME="Adwaita:dark"
+
+# cool for debugging gpu stuff, but it's everywhere with sway.
+#export GALLIUM_HUD="simple,cpu,sensors_temp_cu-amdgpu-pci-0d00.temp1=GPU-temp,GPU-load,VRAM-usage,fps"

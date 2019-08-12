@@ -5,7 +5,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# If running trom tty1 start xorg
+# Used in sourced files to determine the max number of threads to use
+__threads="$(nproc --ignore 2)"
+
+# Environment
+source ~/.config/bash/environment
+
+# If running trom tty1 start GUI
 if [ $(tty) == "/dev/tty1" ]; then
 	source ~/.config/bash/graphical_session
 	exit 0
@@ -21,13 +27,6 @@ else
 	fi
 	tput sgr0
 fi
-
-# Used in sourced files to determine the max number of threads to use
-__threads="$(nproc --ignore 2)"
-
-# Environment
-
-source ~/.config/bash/environment
 
 # Prompt
 

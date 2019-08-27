@@ -11,8 +11,8 @@ __threads="$(nproc --ignore 2)"
 # Environment
 source ~/.config/bash/environment
 
-# If running trom tty1 start GUI
-if [ $(tty) == "/dev/tty1" ]; then
+# If running trom tty1 and WAYLAND_DISPLAY isn't set, start GUI
+if [ $(tty) == "/dev/tty1" -a -z "$WAYLAND_DISPLAY" ]; then
 	source ~/.config/bash/graphical_session
 	exit 0
 else

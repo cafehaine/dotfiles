@@ -7,8 +7,8 @@ workspace 1 output DP-0
 workspace $ws9 output HDMI-0
 workspace $ws10 output DVI-I-1
 
-#==========#
-# Bindings #
+#===========#
+# Bindings  #
 #===========#
 
 # Control stuff
@@ -92,7 +92,6 @@ bindsym $mod+Shift+Right move right
 
 # Resize mode
 mode "resize" {
-        # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 2
         bindsym Down resize grow height 10 px or 2
         bindsym Up resize shrink height 10 px or 2
@@ -101,17 +100,13 @@ mode "resize" {
         bindsym Escape mode "default"
         bindsym Return mode "default"
 }
-
 bindsym $mod+r mode "resize"
 
 # "System" mode
-
 mode "system" {
 	bindsym p exec poweroff
 	bindsym e exit
 	bindsym r reload
-	# Uncomment when https://github.com/swaywm/sway/pull/4187 is in release
-	#bindsym --locked $mod+l	exec systemctl suspend
 	bindsym l exec "systemctl suspend && swaylock -i ~/Pictures/wallpaper.png --scaling fill -F"
 
         bindsym Escape mode "default"
@@ -139,15 +134,18 @@ smart_gaps on
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 
-#========#
-# Inputs #
-#========#
+#=====================#
+# Input tweaks/config #
+#=====================#
 
 # set keyboard layout
 input * {
 	xkb_layout fr,fr
 	xkb_variant bepo,
 	xkb_options caps:none,grp:shifts_toggle,grp_led:caps
+	# Disable capslock
+	# Use the capslock led as a layout indicator
+	# Change between bépo and azerty by pressing both shift keys
 }
 
 # map some inputs to screens

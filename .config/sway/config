@@ -149,8 +149,12 @@ input * {
 	xkb_variant bepo,
 	xkb_options caps:none,grp:shifts_toggle,grp_led:caps
 }
-# map my touchscreen
+
+# map some inputs to screens
+# Tablet touchscreen
 input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
+# Desktop drawing tablet
+input "9580:110:HUION_Huion_Tablet_Pen" map_to_output HDMI-A-1
 
 # auto hide cursor after 5 seconds
 seat * hide_cursor 5000

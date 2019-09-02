@@ -1,0 +1,5 @@
+{
+	output "Addi-Data GmbH 0x0004 0x00000001" position 0,1336
+	output "Acer Technologies Acer K222HQL T1LEE0054210" position 2944,0 transform 270
+	output "ViewSonic Corporation VX2263 Series U09164161223" position 1024,613
+}

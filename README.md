@@ -20,6 +20,7 @@ basic.
   - pactl − To change the volume levels
   - mpc − To control mpd and have some music
   - grim and slurp − to take screenshots
+  - kanshi - to setup the screen layouts I use
 - GUI apps
   - firefox-developer-edition − Get firefox.
   - imv − Like feh, but for wayland

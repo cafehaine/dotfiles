@@ -122,9 +122,9 @@ bar {
 # Gaps
 default_border pixel 2
 # Border colors (white when focused, black otherwise)
-client.focused 		#000000 #000000 #000000 #000000 #FFFFFF
-client.focused_inactive	#000000 #000000 #000000 #000000 #000000
-client.unfocused	#000000 #000000 #000000 #000000 #000000
+client.focused 		#FFFFFF #000000 #FFFFFF #AAAAAA #FFFFFF
+client.focused_inactive	#000000 #000000 #AAAAAA #000000 #000000
+client.unfocused	#000000 #000000 #AAAAAA #000000 #000000
 hide_edge_borders smart
 gaps inner 5
 gaps outer 0
@@ -133,6 +133,7 @@ smart_gaps on
 # Fixes
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
+for_window [title="Firefox Developer Edition - Sharing Indicator"] floating enable
 
 #=====================#
 # Input tweaks/config #
@@ -153,6 +154,8 @@ input * {
 input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
 # Desktop drawing tablet
 input "9580:110:HUION_Huion_Tablet_Pen" map_to_output HDMI-A-1
+# Desktop touchscreen
+input "3823:5:WaveShare_WaveShare_Touchscreen" map_to_output DP-1
 
 # auto hide cursor after 5 seconds
 seat * hide_cursor 5000

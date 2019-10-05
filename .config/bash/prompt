@@ -1,3 +1,5 @@
+#!/bin/bash
+
 __centertext()
 {
 	local padding=$(( $1 - ${#2} ))
@@ -13,25 +15,6 @@ __centertext()
 	echo ''
 }
 
-__currdir()
-{
-	local pwd
-	if [ "$PWD" == "/" ]; then
-		pwd="/"
-	elif [ "$PWD" == $HOME ]; then
-		pwd="~"
-	else
-		pwd=${PWD##*/}
-	fi
-	local len=${#pwd}
-	if [ $len -gt 11 ]; then
-		pwd=${pwd:0:10}.
-	elif  [ $len -lt 11 ]; then
-		pwd=$(__centertext 11 "$pwd")
-	fi
-	echo $pwd
-}
-
 __errcolor()
 {
 	LASTERR=$?
@@ -44,5 +27,13 @@ __errcolor()
 }
 
 __reset="$(tput sgr0)"
+__topcolor="$(tput setab 16)"
 
-PS1='\$[\[$(__errcolor)\]$(__centertext 3 $?)\[${__reset}\]] \A $(__currdir)> '
+__topline()
+{
+	#TODO cut at end of line if PWD is too long (ellipsis at the start ?)
+	__centertext $(expr $COLUMNS - 10) $PWD
+}
+
+
+PS1='\[${__topcolor}$(__errcolor)\]$(__centertext 3 $?)\[${__reset}${__topcolor}\] \A $(__topline)\[${__reset}\]\n\$ '

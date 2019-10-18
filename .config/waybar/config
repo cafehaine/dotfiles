@@ -10,7 +10,7 @@
         "format": "<span style=\"italic\">{}</span>"
     },
     "mpd": {
-        "format": "{stateIcon} {artist:10} - {title:10}",
+        "format": "{stateIcon} {artist:>10} - {title:10}",
         "state-icons": {"playing":"","paused":""}
     },
     "tray": {

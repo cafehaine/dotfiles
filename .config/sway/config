@@ -1,7 +1,7 @@
 #workspaces
 workspace_auto_back_and_forth yes
-set $ws9 "9:Messaging"
-set $ws10 "10:Video"
+set $ws9 "9:"
+set $ws10 "10:"
 
 #===========#
 # Bindings  #

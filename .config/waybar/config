@@ -16,7 +16,7 @@
     },
     "tray": {
         "icon-size": 24,
-        "spacing": 10
+        "spacing": 6
     },
     "clock": {
         "format": "{:%a %b %d %H:%M}",
@@ -45,8 +45,7 @@
     "pulseaudio": {
         "scroll-step": 2,
         "format": "&lt;){volume:3}%",
-        "format-muted": "&lt;X{volume:3}%"
-        },
+        "format-muted": "&lt;X{volume:3}%",
         "on-click": "pavucontrol",
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
     }

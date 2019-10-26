@@ -5,6 +5,8 @@ alias make="make --jobs=$__threads"
 alias ninja="ninja -j $__threads"
 alias lsblk="lsblk -o NAME,SIZE,TYPE,MOUNTPOINT,LABEL,PARTLABEL"
 alias df="df -h"
+alias free="free -h"
+alias du="du -d1 -h"
 
 # Shortcuts
 alias mkvenv="python -m venv .venv && source .venv/bin/activate"

@@ -60,24 +60,10 @@ set mouse=a "Enable mouse selection
 "=====================
 
 " Tabs (kinda like firefox, but without Ctrl for tab switching)
-nnoremap <unique> <C-T> :tabnew<CR>
+nnoremap <unique> <C-T> :tabnew<CR>:Explore<CR>
 nnoremap <unique> <C-W> :q<CR>
 nnoremap <unique> <Tab> :tabnext<CR>
 nnoremap <unique> <S-Tab> :tabprev<CR>
-
-" Cursor movements for bépo (plus training wheels to stop using arrow keys)
-nnoremap <unique> c <Left>
-vnoremap <unique> c <Left>
-nnoremap <unique> t <Down>
-vnoremap <unique> t <Down>
-nnoremap <unique> s <Up>
-vnoremap <unique> s <Up>
-nnoremap <unique> r <Right>
-vnoremap <unique> r <Right>
-nnoremap <left> <nop>
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <right> <nop>
 
 "========================
 " Color and status stuff

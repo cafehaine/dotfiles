@@ -150,6 +150,10 @@ input * {
 	# Change between bépo and azerty by pressing both shift keys
 }
 
+input "6551:4641:Wireless_Air_mouse_Keyboard" {
+	xkb_layout fr
+}
+
 # map some inputs to screens
 # Tablet touchscreen
 input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1

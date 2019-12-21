@@ -1,14 +1,21 @@
-# Gtk
-export GDK_BACKEND=wayland
-export CLUTTER_BACKEND=wayland
-# Qt
-export QT_QPA_PLATFORM=wayland-egl
-export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-export QT_WAYLAND_FORCE_DPI=96
-# Enlightenment
-export ECORE_EVAS_ENGINE=wayland_egl
-export ELM_ENGINE=wayland_egl
-# SDL
-export SDL_VIDEODRIVER=wayland
+case $(hostname -s) in
+	galifeu)
+		nvidia-xrun startx
+	;;
+	*)
+		# Gtk
+		export GDK_BACKEND=wayland
+		export CLUTTER_BACKEND=wayland
+		# Qt
+		export QT_QPA_PLATFORM=wayland-egl
+		export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+		export QT_WAYLAND_FORCE_DPI=96
+		# Enlightenment
+		export ECORE_EVAS_ENGINE=wayland_egl
+		export ELM_ENGINE=wayland_egl
+		# SDL
+		export SDL_VIDEODRIVER=wayland
 
-sway
+		sway
+	;;
+esac

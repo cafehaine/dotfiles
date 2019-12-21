@@ -2,6 +2,9 @@ case $(hostname -s) in
 	galifeu)
 		nvidia-xrun startx
 	;;
+	zbox)
+		startx
+	;;
 	*)
 		# Gtk
 		export GDK_BACKEND=wayland

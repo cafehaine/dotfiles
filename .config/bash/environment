@@ -35,6 +35,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 export PATH=~/.local/bin:$PATH
 
 export INPUTRC=~/.config/readline
+export XCOMPOSEFILE=~/.config/xcompose
 
 export EDITOR="vim"
 export XZ_OPT="--threads=$__threads"

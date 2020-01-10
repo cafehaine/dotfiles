@@ -145,7 +145,7 @@ for_window [title="Picture-in-Picture"] floating enable
 input * {
 	xkb_layout fr,fr
 	xkb_variant bepo,
-	xkb_options caps:none,grp:shifts_toggle,grp_led:caps
+	xkb_options compose:caps,grp:shifts_toggle,grp_led:caps
 	# Disable capslock
 	# Use the capslock led as a layout indicator
 	# Change between bépo and azerty by pressing both shift keys

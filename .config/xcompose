@@ -1,0 +1,53 @@
+# include the locale's default instructions
+include "%L"
+
+# Random symbols and emojis
+<Multi_key> <c> <o> <c> <o> <space> : "☭" # hammer an sickle
+<Multi_key> <s> <h> <r> <u> <g> <space> : "🤷" # shrug
+<Multi_key> <b> <e> <e> <r> <space> : "🍺" # beer
+<Multi_key> <b> <e> <e> <r> <s> <space> : "🍻" # beers
+<Multi_key> <o> <k> <space> : "👌" # OK hand
+<Multi_key> <t> <h> <i> <n> <k> <space> : "🤔" # thinking
+<Multi_key> <h> <e> <a> <r> <t> <space> : "❤️" # heart
+<Multi_key> <h> <e> <a> <r> <t> <b> <space> : "💙" # blue heart
+
+# Some keys representations
+<Multi_key> <BackSpace> <space> : "⌫"
+<Multi_key> <Return> <space> : "⏎"
+
+# Simple arrows
+<Multi_key> <Up> <space> : "↑"
+<Multi_key> <Right> <space> : "→"
+<Multi_key> <Left> <space> : "←"
+<Multi_key> <Down> <space> : "↓"
+<Multi_key> <Up> <Down> <space> : "↕"
+<Multi_key> <Down> <Up> <space> : "↕"
+<Multi_key> <Left> <Right> <space> : "↔"
+<Multi_key> <Right> <Left> <space> : "↔"
+<Multi_key> <Left> <Up> <space> : "↖"
+<Multi_key> <Up> <Left> <space> : "↖"
+<Multi_key> <Up> <Right> <space> : "↗"
+<Multi_key> <Right> <Up> <space> : "↗"
+<Multi_key> <Right> <Down> <space> : "↘"
+<Multi_key> <Down> <Right> <space> : "↘"
+<Multi_key> <Down> <Left> <space> : "↙"
+<Multi_key> <Left> <Down> <space> : "↙"
+
+# Double arrows
+<Multi_key> <Multi_key> <Up> <space> : "⇑"
+<Multi_key> <Multi_key> <Right> <space> : "⇒"
+<Multi_key> <Multi_key> <Left> <space> : "⇐"
+<Multi_key> <Multi_key> <Down> <space> : "⇓"
+<Multi_key> <Multi_key> <Up> <Down> <space> : "⇕"
+<Multi_key> <Multi_key> <Down> <Up> <space> : "⇕"
+<Multi_key> <Multi_key> <Left> <Right> <space> : "⇔"
+<Multi_key> <Multi_key> <Right> <Left> <space> : "⇔"
+<Multi_key> <Multi_key> <Left> <Up> <space> : "⇖"
+<Multi_key> <Multi_key> <Up> <Left> <space> : "⇖"
+<Multi_key> <Multi_key> <Up> <Right> <space> : "⇗"
+<Multi_key> <Multi_key> <Right> <Up> <space> : "⇗"
+<Multi_key> <Multi_key> <Right> <Down> <space> : "⇘"
+<Multi_key> <Multi_key> <Down> <Right> <space> : "⇘"
+<Multi_key> <Multi_key> <Down> <Left> <space> : "⇙"
+<Multi_key> <Multi_key> <Left> <Down> <space> : "⇙"
+

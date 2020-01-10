@@ -76,6 +76,9 @@ set wildmenu "Pretty menu on tab completion
 
 set mouse=a "Enable mouse selection
 
+"Save with sudo when using W
+command W w !sudo tee "%" > /dev/null
+
 "=====================
 " Custom key bindings
 "=====================

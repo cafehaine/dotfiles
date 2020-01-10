@@ -56,8 +56,10 @@ autocmd BufNewFile * call PrefillTemplate()
 " General config
 "================
 
+color cafehaine
 syntax enable "Syntax coloring
 set ai "Auto indent
+set cursorline
 set nu "Line numbering
 set laststatus=2 "Always show status
 
@@ -74,7 +76,6 @@ set shiftwidth=8
 set noexpandtab
 
 " Highlight column 81
-highlight ColorColumn ctermbg=black
 set colorcolumn=81
 
 set title titlestring=%F%r%w%h\ -\ vim "Change title
@@ -98,19 +99,10 @@ nnoremap <unique> <C-W> :q<CR>
 nnoremap <unique> <Tab> :tabnext<CR>
 nnoremap <unique> <S-Tab> :tabprev<CR>
 
-"========================
-" Color and status stuff
-"========================
+"============
+" Statusline
+"============
 
-highlight LineNr	ctermfg=grey	ctermbg=black
-highlight Pmenu		ctermfg=grey	ctermbg=black
-highlight PmenuSel	ctermfg=black	ctermbg=green
-
-" Format the status line
-hi User1 ctermbg=None	ctermfg=white
-hi User2 ctermbg=None	ctermfg=darkgrey
-
-" Statusline:
 " [readonly][path] - [hovered char as hex] ---- [line/total lines] - [column]
 set fillchars=stl:-
 set statusline=%#Error#%r
@@ -121,4 +113,3 @@ set statusline+=%2*\ %=\ %1*
 set statusline+=l:%3l\/%3L
 set statusline+=%2*\ -\ %1*
 set statusline+=c:%3v
-

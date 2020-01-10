@@ -1,3 +1,24 @@
+"==============
+" Vundle stuff
+"==============
+
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'valloric/youcompleteme'
+
+call vundle#end()
+filetype plugin indent on
+
+"======================
+" YouCompleteMe config
+"======================
+
+set completeopt-=preview
+
 "================
 " File templates
 "================
@@ -69,7 +90,10 @@ nnoremap <unique> <S-Tab> :tabprev<CR>
 " Color and status stuff
 "========================
 
-highlight LineNr	ctermfg=grey ctermbg=black
+highlight LineNr	ctermfg=grey	ctermbg=black
+highlight Pmenu		ctermfg=grey	ctermbg=black
+highlight PmenuSel	ctermfg=black	ctermbg=green
+
 " Format the status line
 hi User1 ctermbg=None	ctermfg=white
 hi User2 ctermbg=None	ctermfg=darkgrey

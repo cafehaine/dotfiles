@@ -9,6 +9,8 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'valloric/youcompleteme'
+Plugin 'ap/vim-css-color'
+Plugin 'yggdroot/indentline'
 
 call vundle#end()
 filetype plugin indent on
@@ -18,6 +20,13 @@ filetype plugin indent on
 "======================
 
 set completeopt-=preview
+
+"============
+" indentLine
+"============
+
+let g:indentLine_char='│'
+let g:indentLine_color_term='cyan'
 
 "================
 " File templates

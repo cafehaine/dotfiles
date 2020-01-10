@@ -32,8 +32,8 @@ __topcolor="$(tput setab 16)"
 __topline()
 {
 	#TODO cut at end of line if PWD is too long (ellipsis at the start ?)
-	path=$(echo $PWD | sed "s/^\/home\/$USER/~/g")
-	__centertext $(expr $COLUMNS - 10) $path
+	path=$(echo "$PWD" | sed "s/^\/home\/$USER/~/g")
+	__centertext $(expr $COLUMNS - 10) "$path"
 }
 
 

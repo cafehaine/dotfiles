@@ -37,6 +37,36 @@ basic.
   - pacman − (BTW I use arch)
   - yay − a great aur helper
 
+## Setup
+
+### Git clone
+
+```bash
+todo
+```
+
+### Vim setup
+
+You'll first need to install Vundle:
+```bash
+git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
+```
+Then install the pre-configured plugins in vim with this command:
+
+WARNING: This will take a long time! (YouCompleteMe is quite big)
+
+```
+:PluginInstall
+```
+
+Then finalize the setup of YouCompleteMe
+
+```bash
+cd ~/.vim/bundle/youcompleteme/
+# I'm using --no-regex since it requires something that I don't usually install on my archlinux setups.
+python3 install.py --no-regex
+```
+
 ## License
 These config files/small scripts are released under the unlicense. Basically you
 can do pretty much anything, without requiring any attribution. Check the

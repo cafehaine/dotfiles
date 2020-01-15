@@ -11,6 +11,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'valloric/youcompleteme'
 Plugin 'ap/vim-css-color'
 Plugin 'yggdroot/indentline'
+" Insert new plugins here (you can find some at https://vimawesome.com/)
 
 call vundle#end()
 filetype plugin indent on

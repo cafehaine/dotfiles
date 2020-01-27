@@ -7,11 +7,13 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'valloric/youcompleteme'
-Plugin 'ap/vim-css-color'
-Plugin 'yggdroot/indentline'
-" Insert new plugins here (you can find some at https://vimawesome.com/)
+Plugin 'VundleVim/Vundle.vim'      " package manager
+Plugin 'valloric/youcompleteme'    " auto-completion
+Plugin 'ap/vim-css-color'          " CSS color preview
+Plugin 'yggdroot/indentline'       " space indented vertical indentation guide
+Plugin 'tikhomirov/vim-glsl'       " glsl syntax
+Plugin 'loremipsum'                " insert lorem ipsum paragraphs
+Plugin 'alvan/vim-closetag'        " auto-close html/xml tags
 
 call vundle#end()
 filetype plugin indent on

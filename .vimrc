@@ -31,6 +31,23 @@ set completeopt-=preview
 let g:indentLine_char='│'
 let g:indentLine_color_term='cyan'
 
+"=====================================
+" netrw (vim default's file explorer)
+"=====================================
+
+" hide dotfiles by default (but not ../)
+let g:netrwhide=1
+let g:netrw_list_hide= '^\.\(\.\/\)\@!'
+
+" hide the help banner
+let g:netrw_banner=0
+
+" case insensitive file sorting
+let g:netrw_sort_options="i"
+
+" multi-column layout
+let g:netrw_liststyle=2
+
 "================
 " File templates
 "================

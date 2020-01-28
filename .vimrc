@@ -7,13 +7,16 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'      " package manager
-Plugin 'valloric/youcompleteme'    " auto-completion
-Plugin 'ap/vim-css-color'          " CSS color preview
-Plugin 'yggdroot/indentline'       " space indented vertical indentation guide
-Plugin 'tikhomirov/vim-glsl'       " glsl syntax
-Plugin 'loremipsum'                " insert lorem ipsum paragraphs
-Plugin 'alvan/vim-closetag'        " auto-close html/xml tags
+Plugin 'VundleVim/Vundle.vim'          " package manager
+Plugin 'valloric/youcompleteme'        " auto-completion
+Plugin 'ap/vim-css-color'              " CSS color preview
+Plugin 'yggdroot/indentline'           " space indented vertical indentation guide
+Plugin 'tikhomirov/vim-glsl'           " glsl syntax
+Plugin 'loremipsum'                    " insert lorem ipsum paragraphs
+Plugin 'alvan/vim-closetag'            " auto-close html/xml tags
+Plugin 'datawraith/auto_mkdir'         " auto-create directories on :w
+Plugin 'editorconfig/editorconfig-vim' " editorconfig is a standard to specify per-project configs
+Plugin 'tibabit/vim-templates'         " load templates when opening an empty file
 
 call vundle#end()
 filetype plugin indent on
@@ -48,29 +51,14 @@ let g:netrw_sort_options="i"
 " multi-column layout
 let g:netrw_liststyle=2
 
-"================
-" File templates
-"================
+"===============
+" vim-templates
+"===============
 
-function PrefillTemplate()
-	" exceptions based on the file extension
-	let exceptions = {'h':'c_header', 'hpp':'cpp_header', 'inc.php':'php_class'}
-
-	let templatename = get(exceptions,expand("%:e:e"),&filetype)
-	let path = expand("~/.vimtemplates/".templatename)
-
-	if filereadable(path)
-		call append(0, readfile(path))
-	else
-		echo "PrefillTemplate: No template for ".templatename
-	endif
-endfunction
-
-filetype on
-filetype indent on
-filetype plugin on
-
-autocmd BufNewFile * call PrefillTemplate()
+let g:tmpl_search_paths = ['~/.vimtemplates']
+let g:tmpl_author_name = 'CaféHaine'
+let g:tmpl_company = 'CaféHaine'
+let g:tmpl_author_email = 'kilian.guillaume@gmail.com'
 
 "================
 " General config

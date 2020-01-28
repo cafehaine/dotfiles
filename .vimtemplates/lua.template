@@ -1,0 +1,9 @@
+local {{CLASS}} = {}
+{{CLASS}}.__index = {{CLASS}}
+
+function {{CLASS}}.new()
+	local self = setmetatable({}, {{CLASS}})
+	return self
+end
+
+return {{CLASS}}

@@ -1,9 +1,0 @@
-local m = {}
-m.__index = m
-
-function m.new()
-	local self = setmetatable({}, m)
-	return self
-end
-
-return m

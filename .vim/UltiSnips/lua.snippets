@@ -1,0 +1,18 @@
+snippet if "if ... then (if)"
+if ${1:condition} then
+	${0:--statements}
+end
+endsnippet
+
+# For loops
+snippet fori "for i,v in ipairs(...) do (fori)"
+for i,v in ipairs(${1:table}) do
+	${0:--statements}
+end
+endsnippet
+
+snippet forp "for k,v in pairs(...) do (forp)"
+for k,v in pairs(${1:table}) do
+	${0:--statements}
+end
+endsnippet

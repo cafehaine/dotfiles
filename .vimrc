@@ -17,6 +17,7 @@ Plugin 'alvan/vim-closetag'            " auto-close html/xml tags
 Plugin 'datawraith/auto_mkdir'         " auto-create directories on :w
 Plugin 'editorconfig/editorconfig-vim' " editorconfig is a standard to specify per-project configs
 Plugin 'tibabit/vim-templates'         " load templates when opening an empty file
+Plugin 'sirver/ultisnips'              " insert code snippets
 
 call vundle#end()
 filetype plugin indent on
@@ -26,6 +27,7 @@ filetype plugin indent on
 "======================
 
 set completeopt-=preview
+let g:ycm_key_invoke_completion = ''
 
 "============
 " indentLine
@@ -59,6 +61,14 @@ let g:tmpl_search_paths = ['~/.vimtemplates']
 let g:tmpl_author_name = 'CaféHaine'
 let g:tmpl_company = 'CaféHaine'
 let g:tmpl_author_email = 'kilian.guillaume@gmail.com'
+
+"===========
+" UltiSnips
+"===========
+
+"TODO find better bindings, and define binding for backward jump.
+let g:UltiSnipsExpandTrigger="<c-b>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
 
 "================
 " General config

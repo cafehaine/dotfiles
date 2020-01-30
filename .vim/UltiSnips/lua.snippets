@@ -1,18 +1,32 @@
-snippet if "if ... then (if)"
+snippet if "if ... then"
 if ${1:condition} then
 	${0:--statements}
 end
 endsnippet
 
-# For loops
-snippet fori "for i,v in ipairs(...) do (fori)"
-for i,v in ipairs(${1:table}) do
+# While loop
+snippet while "while ... do"
+while ${1:true} do
 	${0:--statements}
 end
 endsnippet
 
-snippet forp "for k,v in pairs(...) do (forp)"
+# For loops
+snippet fori "for i,v in ipairs(...) do"
+for i,v in ipairs(${1:table}) do
+	${0:print(i, v)}
+end
+endsnippet
+
+snippet forp "for k,v in pairs(...) do"
 for k,v in pairs(${1:table}) do
+	${0:print(i, v)}
+end
+endsnippet
+
+# Functions
+snippet func "function ...()"
+function ${1:name}(${2})
 	${0:--statements}
 end
 endsnippet

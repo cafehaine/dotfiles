@@ -42,7 +42,11 @@ basic.
 ### Git clone
 
 ```bash
-todo
+git init
+git remote add origin https://github.com/cafehaine/dotfiles
+git fetch
+git checkout -t origin/master
+# Will list confilcting files if any, backup them and remove them
 ```
 
 ### Vim setup

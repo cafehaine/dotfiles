@@ -27,7 +27,7 @@
         "format": " {usage:3}%"
     },
     "memory": {
-        "format": " {:3}%"
+        "format": " {:3}%"
     },
     "battery": {
         "states": {

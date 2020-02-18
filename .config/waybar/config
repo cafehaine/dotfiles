@@ -2,7 +2,7 @@
 	"layer": "low",
 		"modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
 		"modules-center": ["clock"],
-		"modules-right": ["mpd","pulseaudio", "disk#root", "disk#home", "network", "cpu", "memory", "battery", "tray"],
+		"modules-right": ["mpd","pulseaudio", "disk#root", "disk#home", "cpu", "memory", "network", "battery", "tray"],
 		"sway/workspaces": {
 			"disable-scroll": true
 		},
@@ -14,6 +14,7 @@
 		},
 		"mpd": {
 			"format": "{stateIcon} {artist:>10} - {title:10}",
+			"format-disconnected":"",
 			"state-icons": {"playing":"","paused":""},
 			"max-length": 25
 		},
@@ -45,8 +46,9 @@
 			"states": {
 				"critical": 15
 			},
-			"format": "{icon} {capacity:3}%",
-			"format-icons": ["○", "◔", "◑", "◕", "●"]
+			"format": "{icon}",
+			"format-icons": ["", "", "", "", ""],
+			"tooltip-format":"{capacity}%"
 		},
 		"network": {
 			"format-wifi": "",

@@ -1,7 +1,7 @@
 @define-color main_color #FFFFFF;
 @define-color faded_color alpha(@main_color, 0.7);
-@define-color background rgba(0, 0, 0, 0.7);
-@define-color back_border rgba(0, 0, 0, 0.2);
+@define-color background rgba(0, 0, 0, 0.8);
+@define-color back_border rgba(0, 0, 0, 0.5);
 @define-color module_border #333;
 @define-color module_border_hi #777;
 

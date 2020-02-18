@@ -1,27 +1,39 @@
+@define-color main_color #FFFFFF;
+@define-color faded_color alpha(@main_color, 0.7);
+@define-color background rgba(0, 0, 0, 0.7);
+@define-color back_border rgba(0, 0, 0, 0.2);
+@define-color module_border #333;
+@define-color module_border_hi #777;
+
 * {
 	border: none;
 	border-radius: 0;
-	font-family: Fira Code Light;
-	font-size: 17px;
+	font-family: Fira Code, "FontAwesome 5 Free Solid";
+	font-size: 16px;
 	min-height: 0;
-	color: white;
+	color: @main_color;
 }
 
 window#waybar {
-	background: rgba(0, 0, 0, 0.7);
-	border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+	background: @background;
+	border-bottom: 2px solid @back_border;
 }
 
-#mpd, #clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #workspaces button {
-	padding: 3px 5px 1px 5px;
-	margin: 0 5px;
+#mpd, #clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #workspaces button {
+	padding: 1px 4px 0px 4px;
+	margin: 0 4px;
 	background: transparent;
-	border-bottom: 3px #777 solid;
+	border-bottom: 2px @module_border solid;
+}
+
+#window {
+	font-family: Cantarell;
+	color: @faded_color;
 }
 
 /* Sway stuff */
 #workspaces button.focused, #mode {
-	border-color: white;
+	border-color: @module_border_hi;
 }
 
 #workspaces button:hover {

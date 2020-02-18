@@ -176,7 +176,7 @@ bindsym Shift+button5 seat * cursor press button7
 
 exec_always Documents/Prog/tiling4tablets/AutoRotate/autorotate
 exec kanshi
-exec_always setrandom Pictures/Wallpapers/
+exec_always setrandom --mode scale Pictures/Wallpapers/
 exec mako
 exec redshift -m wayland -t6500K:2400K
 exec QT_QPA_PLATFORM="" albert

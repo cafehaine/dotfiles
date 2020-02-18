@@ -1,9 +1,7 @@
-@define-color main_color #FFFFFF;
-@define-color faded_color alpha(@main_color, 0.7);
-@define-color background rgba(0, 0, 0, 0.8);
-@define-color back_border rgba(0, 0, 0, 0.5);
-@define-color module_border #333;
-@define-color module_border_hi #777;
+@define-color main_color #EEE;
+@define-color faded_color #BBB;
+@define-color background #222;
+@define-color background_hi #000;
 
 * {
 	border: none;
@@ -12,28 +10,27 @@
 	font-size: 16px;
 	min-height: 0;
 	color: @main_color;
+	margin: 0;
 }
 
 window#waybar {
 	background: @background;
-	border-bottom: 2px solid @back_border;
 }
 
 #mpd, #clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #workspaces button {
-	padding: 1px 4px 0px 4px;
-	margin: 0 4px;
+	padding: 4px 8px;
 	background: transparent;
-	border-bottom: 2px @module_border solid;
 }
 
 #window {
 	font-family: Cantarell;
+	padding-left: 8px;
 	color: @faded_color;
 }
 
 /* Sway stuff */
 #workspaces button.focused, #mode {
-	border-color: @module_border_hi;
+	background: @background_hi;
 }
 
 #workspaces button:hover {

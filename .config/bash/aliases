@@ -25,3 +25,13 @@ activate() {
 		"Could not find .venv"
 	fi
 }
+
+new-ssh-key() {
+	read -p "Enter the name of the service this key will be used for: " service
+	read -p "Enter a hint for the password: " hint
+
+	ssh-keygen -C "$(whoami)@$(uname -n)_$service_$(date -I)" -f "$HOME/.ssh/id_$service"
+
+	echo "$hint" > "$HOME/.ssh/id_$service.hint"
+	echo "Your password hint has been saved in $HOME/.ssh/id_$service.hint"
+}

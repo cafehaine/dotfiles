@@ -18,7 +18,7 @@ if [ $(tty) == "/dev/tty1" -a -z "$WAYLAND_DISPLAY" ]; then
 else
 	tput setaf 9
 	echo "
- -=[  CaféHaine  ]=-
+ -=[  $USER @ $HOSTNAME  ]=-
 "
 	pgrep obs&>/dev/null
 	if [ $? -eq 0 ]; then

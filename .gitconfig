@@ -1,0 +1,23 @@
+[user]
+	email = kilian.guillaume@gmail.com
+	name = cafehaine
+
+[alias]
+	p  = push
+	P  = push --force-with-lease
+
+	pr = pull --rebase
+
+	s  = status
+
+	d  = diff
+	ds = diff --staged
+
+	a  = add
+	A  = add -f
+
+	c  = commit
+	ca = commit --amend
+
+[advice]
+	addIgnoredFile = false

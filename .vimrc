@@ -11,13 +11,14 @@ Plugin 'VundleVim/Vundle.vim'          " package manager
 Plugin 'valloric/youcompleteme'        " auto-completion
 Plugin 'ap/vim-css-color'              " CSS color preview
 Plugin 'yggdroot/indentline'           " space indented vertical indentation guide
-Plugin 'tikhomirov/vim-glsl'           " glsl syntax
+Plugin 'tikhomirov/vim-glsl'           " GLSL syntax
 Plugin 'loremipsum'                    " insert lorem ipsum paragraphs
 Plugin 'alvan/vim-closetag'            " auto-close html/xml tags
 Plugin 'datawraith/auto_mkdir'         " auto-create directories on :w
 Plugin 'editorconfig/editorconfig-vim' " editorconfig is a standard to specify per-project configs
 Plugin 'tibabit/vim-templates'         " load templates when opening an empty file
 Plugin 'sirver/ultisnips'              " insert code snippets
+Plugin 'unblevable/quick-scope'        " highlight chars to jump to using f or t
 
 call vundle#end()
 filetype plugin indent on
@@ -70,6 +71,13 @@ let g:tmpl_author_email = 'kilian.guillaume@gmail.com'
 let g:UltiSnipsExpandTrigger="<c-b>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 
+"=============
+" Quick-Scope
+"=============
+
+"Show highlights only when pressing 'jump' keys
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
 "================
 " General config
 "================
@@ -78,8 +86,20 @@ color cafehaine
 syntax enable "Syntax coloring
 set ai "Auto indent
 set cursorline
-set nu "Line numbering
 set laststatus=2 "Always show status
+
+set nu rnu "Relative + absolute line numbering
+augroup numbertoggle
+	autocmd!
+	autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+	autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+augroup spelltoggle
+	autocmd!
+	autocmd BufEnter,FocusGained,InsertLeave * set spell spelllang=en_us
+	autocmd BufLeave,FocusLost,InsertEnter   * set nospell
+augroup END
 
 "Override non breaking space, tabulation and trailing whitespace display
 set listchars=nbsp:␣,tab:\│\ ,trail:─
@@ -111,7 +131,7 @@ command W w !sudo tee "%" > /dev/null
 " Custom key bindings
 "=====================
 
-" Tabs (kinda like firefox, but without Ctrl for tab switching)
+" Tabs (kinda like Firefox, but without Ctrl for tab switching)
 nnoremap <unique> <C-T> :tabnew<CR>:Explore<CR>
 nnoremap <unique> <C-W> :q<CR>
 nnoremap <unique> <Tab> :tabnext<CR>

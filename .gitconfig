@@ -18,6 +18,10 @@
 
 	c  = commit
 	ca = commit --amend
+	uncommit = reset HEAD~1
+	uc = uncommit
+
+	l = log --oneline -n 10
 
 [advice]
 	addIgnoredFile = false

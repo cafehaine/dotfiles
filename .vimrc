@@ -36,6 +36,7 @@ let g:ycm_key_invoke_completion = ''
 
 let g:indentLine_char='│'
 let g:indentLine_color_term='cyan'
+let g:indentLine_fileTypeExclude = ['json', 'markdown']
 
 "=====================================
 " netrw (vim default's file explorer)

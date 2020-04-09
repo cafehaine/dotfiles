@@ -98,8 +98,8 @@ augroup END
 
 augroup spelltoggle
 	autocmd!
-	autocmd BufEnter,FocusGained,InsertLeave * set spell spelllang=en_us
-	autocmd BufLeave,FocusLost,InsertEnter   * set nospell
+	autocmd BufEnter,FocusGained,InsertLeave *.md,*.rst,*.txt,*.html set spell spelllang=en_us
+	autocmd BufLeave,FocusLost,InsertEnter   *.md,*.rst,*.txt,*.html set nospell
 augroup END
 
 "Override non breaking space, tabulation and trailing whitespace display

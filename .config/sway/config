@@ -29,11 +29,11 @@ bindsym Print		exec grim - | wl-copy
 bindcode --input-device=1:1:gpio-keys 133 exec python ~/Documents/Prog/tiling4tablets/TouchLauncher/script.py
 
 # Musique
-bindsym --locked XF86AudioPrev exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 prev
-bindsym --locked XF86AudioNext exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 next
-bindsym --locked XF86AudioStop exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 stop
-bindsym --locked XF86AudioPlay exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 toggle
-bindsym --locked Mod1+Control+Tab exec --no-startup-id	mpc -h "127.0.0.1" -p 6600 toggle # MX Master thumb "key"
+bindsym --locked XF86AudioPrev exec --no-startup-id	playerctl --player=playerctld previous
+bindsym --locked XF86AudioNext exec --no-startup-id	playerctl --player=playerctld next
+bindsym --locked XF86AudioStop exec --no-startup-id	playerctl --player=playerctld stop
+bindsym --locked XF86AudioPlay exec --no-startup-id	playerctl --player=playerctld play-pause
+bindsym --locked Mod1+Control+Tab exec --no-startup-id	playerctl --player=playerctld play-pause
 bindsym XF86Tools exec ario
 
 # Volume

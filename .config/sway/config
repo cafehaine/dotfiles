@@ -150,6 +150,7 @@ input * {
 	# Disable capslock
 	# Use the capslock led as a layout indicator
 	# Change between bépo and azerty by pressing both shift keys
+	xkb_numlock enabled
 }
 
 input "6551:4641:Wireless_Air_mouse_Keyboard" {

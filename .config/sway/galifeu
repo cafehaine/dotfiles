@@ -1,3 +1,9 @@
 # Config lines for my "big" laptop
 
+# This laptop does not have a 'super' key on the left.
 set $mod Mod1
+
+# Enable the tap mode on the touchpad, so that I can middle click
+input "2:14:ETPS/2_Elantech_Touchpad" {
+	tap enabled
+}

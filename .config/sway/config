@@ -25,9 +25,6 @@ bindsym $mod+e		exec --no-startup-id GDK_BACKEND=x11 thunar
 bindsym $mod+Print	exec grim -g "$(slurp -d)" - | wl-copy
 bindsym Print		exec grim - | wl-copy
 
-# touch launcher for my tablet
-bindcode --input-device=1:1:gpio-keys 133 exec python ~/Documents/Prog/tiling4tablets/TouchLauncher/script.py
-
 # Musique
 bindsym --locked XF86AudioPrev exec --no-startup-id	playerctl --player=playerctld previous
 bindsym --locked XF86AudioNext exec --no-startup-id	playerctl --player=playerctld next
@@ -156,8 +153,6 @@ input "6551:4641:Wireless_Air_mouse_Keyboard" {
 }
 
 # map some inputs to screens
-# Tablet touchscreen
-input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
 # Desktop drawing tablet
 input "9580:110:HUION_Huion_Tablet_Pen" map_to_output HDMI-A-1
 # Desktop touchscreen
@@ -174,7 +169,6 @@ bindsym Shift+button5 seat * cursor press button7
 # Startup #
 #=========#
 
-exec_always Documents/Prog/tiling4tablets/AutoRotate/autorotate
 exec kanshi
 exec_always setrandom --mode scale Pictures/Wallpapers/
 exec mako
@@ -182,3 +176,5 @@ exec redshift -m wayland -t6500K:2400K
 exec QT_QPA_PLATFORM="" albert
 exec bash ~/.startup.sh
 exec clipman -d --max-items=8
+
+include "~/.config/sway/$(hostname)"

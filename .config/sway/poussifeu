@@ -1,0 +1,10 @@
+# Config lines for my tablet
+
+# touch launcher
+bindcode --input-device=1:1:gpio-keys 133 exec python ~/Documents/Prog/tiling4tablets/TouchLauncher/script.py
+
+# touchscreen
+input "10248:4117:FTSC1000:00_2808:1015" map_to_output DSI-1
+
+# Rotation script
+exec_always Documents/Prog/tiling4tablets/AutoRotate/autorotate

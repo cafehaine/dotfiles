@@ -1,11 +1,6 @@
-case $(hostname -s) in
-	galifeu)
-		nvidia-xrun startx
-	;;
-	zbox)
-		startx
-	;;
-	*)
+#!/usr/bin/bash
+
+launch_sway() {
 		# Gtk
 		export GDK_BACKEND=wayland
 		export CLUTTER_BACKEND=wayland
@@ -22,5 +17,42 @@ case $(hostname -s) in
 		export SDL_VIDEODRIVER=wayland
 
 		sway
+}
+
+galifeu_menu() {
+	dialog --nocancel --menu "Choose a desktop environment" 0 0 0\
+		kodi ""\
+		sway ""\
+		xfce "(with nvidia GPU)"\
+		poweroff ""\
+		2>/tmp/session_choice
+
+	#TODO check exit code for ESC
+
+	case $(cat /tmp/session_choice) in
+		kodi)
+			startx /usr/bin/kodi
+		;;
+		sway)
+			launch_sway
+		;;
+		xfce)
+			nvidia-xrun startx
+		;;
+		poweroff)
+			poweroff
+		;;
+	esac
+}
+
+case $(hostname -s) in
+	galifeu)
+		galifeu_menu
+	;;
+	zbox)
+		startx
+	;;
+	*)
+		launch_sway
 	;;
 esac

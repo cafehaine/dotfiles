@@ -1,3 +1,8 @@
+# Define modifier and include per-device config right after, so that those
+# configs can override the modifier
+set $mod Mod4
+include "~/.config/sway/$(hostname)"
+
 #workspaces
 workspace_auto_back_and_forth yes
 set $ws9 "9:"
@@ -8,7 +13,6 @@ set $ws10 "10:"
 #===========#
 
 # Control stuff
-set $mod Mod4
 focus_follows_mouse no
 floating_modifier $mod
 
@@ -176,5 +180,3 @@ exec redshift -m wayland -t6500K:2400K
 exec QT_QPA_PLATFORM="" albert
 exec bash ~/.startup.sh
 exec clipman -d --max-items=8
-
-include "~/.config/sway/$(hostname)"

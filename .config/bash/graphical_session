@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+echo "Starting graphical session..."
+export SESSION_STARTED=1
+
 launch_sway() {
 		# Gtk
 		export GDK_BACKEND=wayland
@@ -23,11 +26,15 @@ galifeu_menu() {
 	dialog --nocancel --menu "Choose a desktop environment" 0 0 0\
 		kodi ""\
 		sway ""\
+		nymphcast ""\
 		xfce "(with nvidia GPU)"\
+		bash ""\
 		poweroff ""\
 		2>/tmp/session_choice
 
 	#TODO check exit code for ESC
+
+	clear
 
 	case $(cat /tmp/session_choice) in
 		kodi)
@@ -36,8 +43,14 @@ galifeu_menu() {
 		sway)
 			launch_sway
 		;;
+		nymphcast)
+			startx /opt/nymphcast/nymphcast_server -c /opt/nymphcast/nymphcast_video_config.ini -a /opt/nymphcast/apps/ -w ./Pictures/Wallpapers
+		;;
 		xfce)
 			nvidia-xrun startx
+		;;
+		bash)
+			bash
 		;;
 		poweroff)
 			poweroff

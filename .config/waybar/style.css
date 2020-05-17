@@ -1,49 +1,88 @@
-@define-color main_color #EEE;
-@define-color faded_color #BBB;
-@define-color background #222;
-@define-color background_hi #000;
-
+/* Reset */
 * {
-	border: none;
-	border-radius: 0;
-	font-family: Fira Code, "FontAwesome 5 Free Solid";
-	font-size: 16px;
-	min-height: 0;
-	color: @main_color;
-	margin: 0;
+  border: none;
+  border-radius: 0;
+  font-family: Fira Code, "FontAwesome 5 Free Solid";
+  font-size: 16px;
+  min-height: 0;
+  color: #DEDEDE;
+  margin: 0;
+  padding: 0;
+  text-shadow: none;
+  background: transparent;
 }
-
 window#waybar {
-	background: @background;
+  background: rgba(0, 0, 0, 0.8);
 }
-
-#mpd, #clock, #battery, #cpu, #memory, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #workspaces button {
-	padding: 4px 8px;
-	background: transparent;
+/****************/
+/* Info modules */
+/****************/
+#temperature,
+#battery,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#disk {
+  margin: 0 8px;
+  border-top: solid 2px #FF00FF;
+  padding: 4px;
 }
-
-#window {
-	font-family: Cantarell;
-	padding-left: 8px;
-	color: @faded_color;
+#temperature,
+#cpu {
+  border-top-color: #e600e6;
 }
-
-/* Sway stuff */
-#workspaces button.focused, #mode {
-	background: @background_hi;
+#memory {
+  border-top-color: #73e600;
 }
-
-#workspaces button:hover {
-	/* override default style */
-	text-shadow: none;
+#disk {
+  border-top-color: #00bfe6;
 }
-
+#pulseaudio {
+  border-top-color: #e67300;
+}
+#battery {
+  border-top-color: #e6d200;
+}
+#network {
+  border-top-color: #4c00e6;
+}
 /* Good and bad */
 #battery.charging {
-	border-color: #26A65B;
+  border-color: #26A65B;
 }
-
-#battery.critical:not(.charging), #network.disconnected, #pulseaudio.muted {
-	border-color: #f53c3c;
+#battery.critical:not(.charging),
+#network.disconnected,
+#pulseaudio.muted {
+  border-color: #f53c3c;
 }
-
+/**************/
+/* Sway stuff */
+/**************/
+#workspaces button {
+  padding: 0 4px;
+}
+#workspaces button label {
+  color: #888888;
+}
+#workspaces button.focused,
+#mode {
+  background: #000;
+}
+#workspaces button.focused label,
+#mode label {
+  color: #DEDEDE;
+}
+#window {
+  font-family: Cantarell;
+  padding-left: 8px;
+  color: #888888;
+}
+/*********/
+/* Clock */
+/*********/
+#clock {
+  font-family: Cantarell;
+  font-size: 18px;
+  padding: 0 8px;
+}

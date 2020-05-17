@@ -6,4 +6,5 @@ set $mod Mod1
 # Enable the tap mode on the touchpad, so that I can middle click
 input "2:14:ETPS/2_Elantech_Touchpad" {
 	tap enabled
+	scroll_factor 0.4
 }

@@ -1,11 +1,20 @@
-ravenarch {
+profile ravenarch {
 	output "Acer Technologies Acer K222HQL T1LEE0054210" position 2944,0 transform 270
 	output "ViewSonic Corporation VX2263 Series U09164161223" position 1024,613
 
 	exec swaymsg workspace "9:" output DP-3 && swaymsg workspace "9:"
 	exec swaymsg workspace 1 output HDMI-A-1 && swaymsg workspace 1
 }
-ravenarch_touchscreen {
+
+profile ravenarch_rueil {
+	output "Iiyama North America PLX2380H 11178G3902863" position 0,0
+	output "ViewSonic Corporation VX2263 Series U09164161223" position 1920,156
+	exec swaymsg workspace "10:" output HDMI-A-1
+	exec swaymsg workspace "9:" output HDMI-A-1 && swaymsg workspace "9:"
+	exec swaymsg workspace 1 output DP-3 && swaymsg workspace 1
+}
+
+profile ravenarch_touchscreen {
 	output "Addi-Data GmbH 0x0004 0x00000001" position 0,1336
 	output "Acer Technologies Acer K222HQL T1LEE0054210" position 2944,0 transform 270
 	output "ViewSonic Corporation VX2263 Series U09164161223" position 1024,613

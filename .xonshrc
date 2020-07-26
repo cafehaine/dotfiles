@@ -11,7 +11,7 @@ if $(tty) == '/dev/tty1\n' and not "SESSION_STARTED" in ${...}:
     exit
 
 $XONSH_COLOR_STYLE = 'manni'
-xontrib load prompt_ret_code whole_word_jumping vox
+xontrib load whole_word_jumping vox
 
 source .config/xonsh/aliases.py
 source .config/xonsh/prompt.py

@@ -1,9 +1,11 @@
 #/usr/bin/env python3
 
+#TODO rewrite in python? maybe not.
+source-bash --suppress-skip-message .config/bash/environment
 source .config/xonsh/environment.py
 
 # Start graphical session if running from tty1
-if $(tty) == '/dev/tty1\n':
+if $(tty) == '/dev/tty1\n' and not "SESSION_STARTED" in ${...}:
     #TODO rewrite in python
     source-bash .config/bash/graphical_session
     exit

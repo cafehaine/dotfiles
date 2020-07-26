@@ -1,0 +1,15 @@
+#/usr/bin/env python3
+
+source .config/xonsh/environment.py
+
+# Start graphical session if running from tty1
+if $(tty) == '/dev/tty1\n':
+    #TODO rewrite in python
+    source-bash .config/bash/graphical_session
+    exit
+
+$XONSH_COLOR_STYLE = 'manni'
+xontrib load prompt_ret_code whole_word_jumping vox
+
+source .config/xonsh/aliases.py
+source .config/xonsh/prompt.py

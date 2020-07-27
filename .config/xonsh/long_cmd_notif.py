@@ -2,7 +2,8 @@ from xonsh.built_ins import events
 
 # List of blacklisted prefixes for commands
 _NOTIF_BLACKLIST = (
-    "vim"
+    "vim",
+    "man",
 )
 
 # Minimum duration of execution for notifications

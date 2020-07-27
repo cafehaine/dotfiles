@@ -1,3 +1,4 @@
+import argparse
 from fnmatch import fnmatch
 import math
 import os
@@ -70,8 +71,6 @@ def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> Tuple[
     width = len(entry.name)
     name = entry.name
 
-    #TODO quote names
-
     if show_icons:
         icon = _LS_ICONS['error']
 
@@ -122,7 +121,7 @@ def _get_entries(path: str, show_hidden: bool) -> List[os.DirEntry]:
     """
     files = []
     directories = []
-    with os.scandir() as iterator:
+    with os.scandir(path) as iterator:
         for entry in iterator:
             # Skip entries that start with a '.'
             if not show_hidden and entry.name.startswith('.'):
@@ -153,11 +152,12 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
     max_width = max([entry[1] for entry in entries])
     term_size = shutil.get_terminal_size()
 
+    #TODO "brute force" the layout (looks like coreutils' ls does it this way)
+
     # max_width + 1 to add a space between columns
     column_count = term_size.columns // (max_width + _LS_COLUMN_SPACING)
 
     if column_count == 0:
-        #TODO truncate names
         column_count = 1
 
     row_count = math.ceil(len(entries) / column_count)
@@ -181,6 +181,15 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
         print((" " * _LS_COLUMN_SPACING).join(line))
 
 
+_ls_parser = argparse.ArgumentParser()
+_ls_parser.add_argument('paths', type=str, nargs='*', default=['.'], help="The directories to list")
+_ls_parser.add_argument("-a", "--all", help="Don't hide entries starting with .", action="store_true")
+#TODO
+#_ls_format_group = _ls_parser.add_mutually_exclusive_group()
+#_ls_format_group.add_argument("-l", help="Long listing format", action="store_true")
+#_ls_format_group.add_argument("-R", "--recursive", help="Show in a tree format", action="store_true")
+
+
 def _ls(args):
     """
     My custom ls function.
@@ -190,8 +199,9 @@ def _ls(args):
 
     It also displays a tree structure when called with the recursive flag.
     """
-    #TODO parse args
-    _list_directory(".")
+    arguments = _ls_parser.parse_args(args)
+    for path in arguments.paths:
+        _list_directory(path, arguments.all)
 
 
 aliases['ls'] = _ls

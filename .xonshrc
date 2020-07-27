@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+#!/usr/bin/env xonsh
 
 #TODO rewrite in python? maybe not.
 source-bash --suppress-skip-message .config/bash/environment
@@ -10,9 +10,10 @@ if $(tty) == '/dev/tty1\n' and not "SESSION_STARTED" in ${...}:
     source-bash .config/bash/graphical_session
     exit
 
-$XONSH_COLOR_STYLE = 'manni'
+$XONSH_COLOR_STYLE = 'native'
 xontrib load whole_word_jumping vox
 
 source .config/xonsh/aliases.py
 source .config/xonsh/prompt.py
 source .config/xonsh/long_cmd_notif.py
+source .config/xonsh/my_ls.py

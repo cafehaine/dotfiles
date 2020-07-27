@@ -56,6 +56,7 @@ _LS_MIMETYPE_ICONS = [
     ('text/*', 'text'),
 ]
 
+
 def _icon_from_mimetype(mimetype: str) -> str:
     """
     Return the emoji for a mimetype.
@@ -64,6 +65,7 @@ def _icon_from_mimetype(mimetype: str) -> str:
         if fnmatch(mimetype, pattern):
             return _LS_ICONS[icon_name]
     return _LS_ICONS['default']
+
 
 def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> NameWidth:
     """
@@ -140,6 +142,45 @@ def _get_entries(path: str, show_hidden: bool) -> List[os.DirEntry]:
     return directories + files
 
 
+def _get_column_width(entries: List[NameWidth], columns: int, column: int) -> int:
+    """
+    Return the width for a specific column when the layout uses a specified count of columns.
+    """
+    max_width_col = 0
+    for i in range(column, len(entries), columns):
+        if entries[i].width > max_width_col:
+            max_width_col = entries[i].width
+    return max_width_col
+
+
+def _compute_width_for_columns(entries: List[NameWidth], columns: int) -> int:
+    """
+    Return the width occupied by the entries when using the specified column
+    count.
+    """
+    # fetch the max width for each columns
+    column_max_widths = []
+    for col in range(columns):
+        column_max_widths.append(_get_column_width(entries, columns, col))
+
+    return sum(column_max_widths) + (columns - 1) * _LS_COLUMN_SPACING
+
+
+def _determine_column_count(entries: List[NameWidth], term_width: int) -> int:
+    """
+    Return the number of columns that should be used to display the listing.
+    """
+    max_column_count = 1
+    min_width = min(entries, key=lambda e: e.width).width
+
+    #TODO This could probably be smaller.
+    for i in range(term_width // min_width):
+        if _compute_width_for_columns(entries, i) < term_width:
+            max_column_count = i
+
+    return max_column_count
+
+
 def _list_directory(path: str, show_hidden: bool = False) -> None:
     """
     Display a listing for a single directory.
@@ -152,27 +193,18 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
 
     entries = [_format_direntry_name(direntry) for direntry in direntries]
 
-    max_width = max([entry.width for entry in entries])
     term_size = shutil.get_terminal_size()
 
-    #TODO "brute force" the layout (looks like coreutils' ls does it this way)
-
-    # max_width + 1 to add a space between columns
-    column_count = term_size.columns // (max_width + _LS_COLUMN_SPACING)
-
-    if column_count == 0:
-        column_count = 1
+    column_count = _determine_column_count(entries, term_size.columns)
 
     row_count = math.ceil(len(entries) / column_count)
     columns = [[] for i in range(column_count)]
 
     # Generate the columns
     for index, (name, width) in enumerate(entries):
-        # Don't pad with spaces on last column
-        if index % column_count == column_count - 1:
-            columns[index % column_count].append(name)
-        else:
-            columns[index % column_count].append(name + (" " * (max_width - width)))
+        column_index = index % column_count
+        column_width = _get_column_width(entries, column_count, column_index)
+        columns[column_index].append(name + (" " * (column_width - width)))
 
 
     # Show the rows

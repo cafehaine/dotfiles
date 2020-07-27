@@ -1,12 +1,15 @@
 import argparse
+from collections import namedtuple
 from fnmatch import fnmatch
 import math
 import os
 import shutil
 import stat
-from typing import List, Tuple
+from typing import List
 
 import magic
+
+NameWidth = namedtuple('NameWidth', ['name', 'width'])
 
 # Technically only 1, but kitty uses 2 "cells" for each emoji.
 _LS_ICON_WIDTH = 2
@@ -62,7 +65,7 @@ def _icon_from_mimetype(mimetype: str) -> str:
             return _LS_ICONS[icon_name]
     return _LS_ICONS['default']
 
-def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> Tuple[str, int]:
+def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> NameWidth:
     """
     Return a string containing a bunch of ainsi escape codes as well as the "width" of the new name.
     """
@@ -103,7 +106,7 @@ def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> Tuple[
     if need_reset:
         name = name + "\033[0m"
 
-    return (name, width)
+    return NameWidth(name, width)
 
 
 def _direntry_lowercase_name(entry: os.DirEntry) -> str:
@@ -149,7 +152,7 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
 
     entries = [_format_direntry_name(direntry) for direntry in direntries]
 
-    max_width = max([entry[1] for entry in entries])
+    max_width = max([entry.width for entry in entries])
     term_size = shutil.get_terminal_size()
 
     #TODO "brute force" the layout (looks like coreutils' ls does it this way)

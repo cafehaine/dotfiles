@@ -12,6 +12,7 @@ _LS_ICON_WIDTH = 2
 
 _LS_ICONS = {
     'default':    "❔",
+    'error':      "🚫",
     'folder':     "📁",
     'text':       "📄",
     'chart':      "📊",
@@ -21,19 +22,34 @@ _LS_ICONS = {
     'iso':        "💿",
     'compressed': "🗜 ",
     'application':"⚙ ",
+    'rich_text':  "📰",
 }
+
+_LS_COLUMN_SPACING = 2
 
 # Note that the order matters!
 _LS_MIMETYPE_ICONS = [
     ('inode/directory', 'folder'),
-    ('text/*', 'text'),
     ('image/*', 'photo'),
     ('audio/*', 'music'),
     ('video/*', 'video'),
+    # Rich text
+    ('application/pdf', 'rich_text'),
+    ('application/vnd.oasis.opendocument.text', 'rich_text'),
+    ('application/msword', 'rich_text'),
+    ('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'rich_text'),
+    ('text/html', 'rich_text'),
+    # Tabular data/charts
     ('application/vnd.oasis.opendocument.spreadsheet', 'chart'),
+    ('application/vnd.ms-excel', 'chart'),
+    ('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'chart'),
+    ('text/csv', 'chart'),
+
     ('application/x-iso9660-image', 'iso'),
     ('application/zip', 'compressed'),
-    ('application/*', 'application')
+    ('application/*', 'application'),
+
+    ('text/*', 'text'),
 ]
 
 def _icon_from_mimetype(mimetype: str) -> str:
@@ -57,9 +73,16 @@ def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> Tuple[
     #TODO quote names
 
     if show_icons:
-        mimetype = magic.detect_from_filename(path).mime_type
-        name = "{} {}".format(_icon_from_mimetype(mimetype), name)
-        width += _LS_ICON_WIDTH + 1
+        icon = _LS_ICONS['error']
+
+        try:
+            mimetype = magic.detect_from_filename(path).mime_type
+            icon = _icon_from_mimetype(mimetype)
+        except:
+            pass
+
+        name = "{}{}".format(icon, name)
+        width += _LS_ICON_WIDTH
 
     need_reset = False
 
@@ -131,20 +154,23 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
     term_size = shutil.get_terminal_size()
 
     # max_width + 1 to add a space between columns
-    column_count = term_size.columns // (max_width + 1)
+    column_count = term_size.columns // (max_width + _LS_COLUMN_SPACING)
 
     if column_count == 0:
         #TODO truncate names
-        print("TOO LONG!!")
-        /usr/bin/ls
-        return
+        column_count = 1
 
     row_count = math.ceil(len(entries) / column_count)
     columns = [[] for i in range(column_count)]
 
     # Generate the columns
     for index, (name, width) in enumerate(entries):
-        columns[index % column_count].append(name + (" " * (max_width - width)))
+        # Don't pad with spaces on last column
+        if index % column_count == column_count - 1:
+            columns[index % column_count].append(name)
+        else:
+            columns[index % column_count].append(name + (" " * (max_width - width)))
+
 
     # Show the rows
     for row in range(row_count):
@@ -152,9 +178,7 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
         for col in range(column_count):
             if row < len(columns[col]):
                 line.append(columns[col][row])
-            else:
-                line.append(" " * max_width)
-        print(" ".join(line))
+        print((" " * _LS_COLUMN_SPACING).join(line))
 
 
 def _ls(args):

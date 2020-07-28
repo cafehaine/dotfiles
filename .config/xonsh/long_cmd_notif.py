@@ -4,6 +4,7 @@ from xonsh.built_ins import events
 _NOTIF_BLACKLIST = (
     "vim",
     "man",
+    "top",
 )
 
 # Minimum duration of execution for notifications

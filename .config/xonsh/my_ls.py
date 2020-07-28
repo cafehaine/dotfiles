@@ -27,6 +27,10 @@ _LS_ICONS = {
     'compressed': "🗜 ",
     'application':"⚙ ",
     'rich_text':  "📰",
+    'java':       "☕",
+    'windows':    "🍷",
+    'python':     "🐍",
+    'php':        "🐘",
 }
 
 _LS_COLUMN_SPACING = 2
@@ -34,9 +38,6 @@ _LS_COLUMN_SPACING = 2
 # Note that the order matters!
 _LS_MIMETYPE_ICONS = [
     ('inode/directory', 'folder'),
-    ('image/*', 'photo'),
-    ('audio/*', 'music'),
-    ('video/*', 'video'),
     # Rich text
     ('application/pdf', 'rich_text'),
     ('application/vnd.oasis.opendocument.text', 'rich_text'),
@@ -48,12 +49,21 @@ _LS_MIMETYPE_ICONS = [
     ('application/vnd.ms-excel', 'chart'),
     ('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'chart'),
     ('text/csv', 'chart'),
-
+    # Java
+    ('application/java-archive', 'java'),
+    ('application/x-java-applet', 'java'),
+    # Misc
     ('application/x-iso9660-image', 'iso'),
     ('application/zip', 'compressed'),
-    ('application/*', 'application'),
-
+    ('application/x-dosexec', 'windows'),
+    ('text/x-script.python', 'python'),
+    ('text/x-php', 'php'),
+    # Generics
     ('text/*', 'text'),
+    ('application/*', 'application'),
+    ('image/*', 'photo'),
+    ('audio/*', 'music'),
+    ('video/*', 'video'),
 ]
 
 
@@ -80,7 +90,10 @@ def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> NameWi
         icon = _LS_ICONS['error']
 
         try:
-            mimetype = magic.detect_from_filename(path).mime_type
+            # This is twice as fast as the "intended method"
+            # magic.detect_from_filename(path).mime_type
+            # since the "intended method" seems to run the matching twice
+            mimetype = magic.mime_magic.file(path).split('; ')[0]
             icon = _icon_from_mimetype(mimetype)
         except:
             pass

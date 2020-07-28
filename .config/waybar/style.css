@@ -1,7 +1,6 @@
 /* Reset */
-* {
+window#waybar {
   border: none;
-  border-radius: 0;
   font-family: Fira Code, "FontAwesome 5 Free Solid";
   font-size: 16px;
   min-height: 0;
@@ -9,10 +8,10 @@
   margin: 0;
   padding: 0;
   text-shadow: none;
-  background: transparent;
+  background: #141414;
 }
-window#waybar {
-  background: rgba(0, 0, 0, 0.8);
+#tray {
+  font-family: sans-serif;
 }
 /****************/
 /* Info modules */
@@ -61,6 +60,7 @@ window#waybar {
 /**************/
 #workspaces button {
   padding: 0 4px;
+  border-radius: 0;
 }
 #workspaces button label {
   color: #888888;

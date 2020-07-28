@@ -1,6 +1,6 @@
 @main_color: #DEDEDE;
 @faded_color: #888888;
-@background: rgba(0, 0, 0, 80%);
+@background: #141414;
 @background_hi: #000;
 
 @accent_sat: 100%;
@@ -15,9 +15,8 @@
 @net_color: hsv(260, @accent_sat, @accent_val);
 
 /* Reset */
-* {
+window#waybar {
 	border: none;
-	border-radius: 0;
 	font-family: Fira Code, "FontAwesome 5 Free Solid";
 	font-size: 16px;
 	min-height: 0;
@@ -25,11 +24,11 @@
 	margin: 0;
 	padding: 0;
 	text-shadow: none;
-	background: transparent;
+	background: @background;
 }
 
-window#waybar {
-	background: @background;
+#tray {
+	font-family: sans-serif;
 }
 
 /****************/
@@ -84,6 +83,7 @@ window#waybar {
 	label {
 		color: @faded_color;
 	}
+	border-radius: 0;
 }
 
 #workspaces button.focused, #mode {

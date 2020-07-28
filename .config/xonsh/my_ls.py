@@ -32,10 +32,14 @@ _LS_ICONS = {
     'python':     "🐍",
     'php':        "🐘",
     'linux':      "🐧",
+    'stylesheet': "🎨",
+    'contacts':   "📇",
+    'calendar':   "📅",
 }
 
 _LS_COLUMN_SPACING = 2
 
+#TODO use some basic extension-based rules, as magic is quite slow
 # Note that the order matters!
 _LS_MIMETYPE_ICONS = [
     ('inode/directory', 'folder'),
@@ -60,6 +64,8 @@ _LS_MIMETYPE_ICONS = [
     ('text/x-script.python', 'python'),
     ('text/x-php', 'php'),
     ('application/x-pie-executable', 'linux'),
+    ('text/vcard', 'contacts'),
+    ('text/calendar', 'calendar'),
     # Generics
     ('text/*', 'text'),
     ('application/*', 'application'),

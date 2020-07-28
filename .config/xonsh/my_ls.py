@@ -270,11 +270,17 @@ def _ls(args):
     It also displays a tree structure when called with the recursive flag.
     """
     arguments = _ls_parser.parse_args(args)
-    for path in arguments.paths:
+    for index, path in enumerate(arguments.paths):
+        if len(arguments.paths) > 1:
+            print("{}:".format(path))
+
         if arguments.recursive:
             _tree_list(path, arguments.all)
         else:
             _list_directory(path, arguments.all)
+
+        if len(arguments.paths) > 1 and index != len(arguments.paths) - 1:
+            print()
 
 
 aliases['ls'] = _ls

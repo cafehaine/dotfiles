@@ -189,7 +189,7 @@ def _determine_column_count(entries: List[NameWidth], term_width: int) -> int:
     #TODO This could probably be smaller.
     for i in range(term_width // min_width):
         if _compute_width_for_columns(entries, i) < term_width:
-            max_column_count = i
+            max_column_count = max(i, max_column_count)
 
     return max_column_count
 
@@ -217,7 +217,10 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
     for index, (name, width) in enumerate(entries):
         column_index = index % column_count
         column_width = _get_column_width(entries, column_count, column_index)
-        columns[column_index].append(name + (" " * (column_width - width)))
+        if column_index == column_count - 1:
+            columns[column_index].append(name)
+        else:
+            columns[column_index].append(name + (" " * (column_width - width)))
 
 
     # Show the rows

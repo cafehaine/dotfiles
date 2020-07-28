@@ -31,6 +31,7 @@ _LS_ICONS = {
     'windows':    "🍷",
     'python':     "🐍",
     'php':        "🐘",
+    'linux':      "🐧",
 }
 
 _LS_COLUMN_SPACING = 2
@@ -58,6 +59,7 @@ _LS_MIMETYPE_ICONS = [
     ('application/x-dosexec', 'windows'),
     ('text/x-script.python', 'python'),
     ('text/x-php', 'php'),
+    ('application/x-pie-executable', 'linux'),
     # Generics
     ('text/*', 'text'),
     ('application/*', 'application'),
@@ -139,16 +141,19 @@ def _get_entries(path: str, show_hidden: bool) -> List[os.DirEntry]:
     """
     files = []
     directories = []
-    with os.scandir(path) as iterator:
-        for entry in iterator:
-            # Skip entries that start with a '.'
-            if not show_hidden and entry.name.startswith('.'):
-                continue
+    try:
+        with os.scandir(path) as iterator:
+            for entry in iterator:
+                # Skip entries that start with a '.'
+                if not show_hidden and entry.name.startswith('.'):
+                    continue
 
-            if entry.is_dir():
-                directories.append(entry)
-            else:
-                files.append(entry)
+                if entry.is_dir():
+                    directories.append(entry)
+                else:
+                    files.append(entry)
+    except PermissionError:
+        pass
 
     files.sort(key = _direntry_lowercase_name)
     directories.sort(key = _direntry_lowercase_name)
@@ -232,13 +237,27 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
         print((" " * _LS_COLUMN_SPACING).join(line))
 
 
+def _tree_list(path: str, show_hidden: bool = False, prefix: str = "") -> None:
+    """
+    Recursively prints a tree structure of the filesystem.
+    """
+    #TODO handle properly "loops" of symlinks.
+    direntries = _get_entries(path, show_hidden)
+    for index, direntry in enumerate(direntries):
+        is_last_entry = index == len(direntries) - 1
+        entry_prefix = prefix + ("╰─" if is_last_entry else "├─")
+        print("{}{}".format(entry_prefix, _format_direntry_name(direntry).name))
+        if direntry.is_dir():
+            _tree_list(direntry.path, show_hidden, prefix + ("  " if is_last_entry else "│ "))
+
+
+
 _ls_parser = argparse.ArgumentParser()
 _ls_parser.add_argument('paths', type=str, nargs='*', default=['.'], help="The directories to list")
 _ls_parser.add_argument("-a", "--all", help="Don't hide entries starting with .", action="store_true")
-#TODO
-#_ls_format_group = _ls_parser.add_mutually_exclusive_group()
+_ls_format_group = _ls_parser.add_mutually_exclusive_group()
 #_ls_format_group.add_argument("-l", help="Long listing format", action="store_true")
-#_ls_format_group.add_argument("-R", "--recursive", help="Show in a tree format", action="store_true")
+_ls_format_group.add_argument("-R", "--recursive", help="Show in a tree format", action="store_true")
 
 
 def _ls(args):
@@ -252,7 +271,10 @@ def _ls(args):
     """
     arguments = _ls_parser.parse_args(args)
     for path in arguments.paths:
-        _list_directory(path, arguments.all)
+        if arguments.recursive:
+            _tree_list(path, arguments.all)
+        else:
+            _list_directory(path, arguments.all)
 
 
 aliases['ls'] = _ls

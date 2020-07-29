@@ -1,15 +1,22 @@
 import argparse
 from collections import namedtuple
+from enum import Enum, auto
 from fnmatch import fnmatch
 import math
 import os
 import shutil
 import stat
-from typing import List
+from typing import List, Union
 
 import magic
 
 NameWidth = namedtuple('NameWidth', ['name', 'width'])
+
+class ColumnAlignment(Enum):
+    LEFT_ALIGNED = auto()
+    RIGHT_ALIGNED = auto()
+    #TODO CENTERED = auto()
+
 
 # Technically only 1, but kitty uses 2 "cells" for each emoji.
 _LS_ICON_WIDTH = 2
@@ -73,6 +80,20 @@ _LS_MIMETYPE_ICONS = [
     ('audio/*', 'music'),
     ('video/*', 'video'),
 ]
+
+
+def _format_size(size: int) -> str:
+    """
+    Format a binary size using the IEC units.
+    """
+    units = ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi", "Yi"]
+    unit_index = 0
+
+    while size > 1024 and unit_index < len(units) - 1:
+        unit_index += 1
+        size /= 1024
+
+    return "{:.1f}{}B".format(size, units[unit_index])
 
 
 def _icon_from_mimetype(mimetype: str) -> str:
@@ -166,7 +187,7 @@ def _get_entries(path: str, show_hidden: bool) -> List[os.DirEntry]:
     return directories + files
 
 
-def _get_column_width(entries: List[NameWidth], columns: int, column: int) -> int:
+def _get_column_width(entries: List[Union[NameWidth, str]], columns: int, column: int) -> int:
     """
     Return the width for a specific column when the layout uses a specified count of columns.
     """
@@ -225,22 +246,11 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
     columns = [[] for i in range(column_count)]
 
     # Generate the columns
-    for index, (name, width) in enumerate(entries):
+    for index, entry in enumerate(entries):
         column_index = index % column_count
-        column_width = _get_column_width(entries, column_count, column_index)
-        if column_index == column_count - 1:
-            columns[column_index].append(name)
-        else:
-            columns[column_index].append(name + (" " * (column_width - width)))
+        columns[column_index].append(entry)
 
-
-    # Show the rows
-    for row in range(row_count):
-        line = []
-        for col in range(column_count):
-            if row < len(columns[col]):
-                line.append(columns[col][row])
-        print((" " * _LS_COLUMN_SPACING).join(line))
+    _show_table(columns)
 
 
 def _tree_list(path: str, show_hidden: bool = False, prefix: str = "") -> None:
@@ -257,12 +267,73 @@ def _tree_list(path: str, show_hidden: bool = False, prefix: str = "") -> None:
             _tree_list(direntry.path, show_hidden, prefix + ("  " if is_last_entry else "│ "))
 
 
+def _column_max_width(column: List[Union[NameWidth, str]]) -> int:
+    """
+    Return the maximum width for a column.
+    """
+    max_width = 0
+    for cell in column:
+        if isinstance(cell, NameWidth):
+            max_width = max(max_width, cell.width)
+        elif isinstance(cell, str):
+            max_width = max(max_width, len(cell))
+
+    return max_width
+
+
+def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: List[ColumnAlignment] = None) -> None:
+    """
+    Display a table in the terminal.
+    """
+    if column_alignments is None:
+        column_alignments = [ColumnAlignment.LEFT_ALIGNED for column in columns]
+
+    column_max_widths = [_column_max_width(column) for column in columns]
+
+    max_row = len(max(columns, key=lambda col: len(col)))
+
+    for row in range(max_row):
+        row_text = []
+        for index, col in enumerate(columns):
+            text_value = ""
+            length = 0
+            if len(col) > row:
+                cell = col[row]
+                if isinstance(cell, NameWidth):
+                    text_value = cell.name
+                    length = cell.width
+                else:
+                    text_value = cell
+                    length = len(cell)
+
+            if length < column_max_widths[index]:
+                alignment = column_alignments[index]
+                to_pad = column_max_widths[index] - length
+                if alignment == ColumnAlignment.LEFT_ALIGNED:
+                    text_value = text_value + " " * to_pad
+                elif alignment == ColumnAlignment.RIGHT_ALIGNED:
+                    text_value = " " * to_pad + text_value
+            row_text.append(text_value)
+
+        print((" " * _LS_COLUMN_SPACING).join(row_text))
+
+
+def _long_list(path: str, show_hidden: bool = False) -> None:
+    """
+    Display the long list format for a directory.
+    """
+    direntries = _get_entries(path, show_hidden)
+    columns = [[],[]]
+    for direntry in direntries:
+        columns[0].append(_format_size(direntry.stat().st_size))
+        columns[1].append(_format_direntry_name(direntry, True).name)
+    _show_table(columns, [ColumnAlignment.RIGHT_ALIGNED, ColumnAlignment.LEFT_ALIGNED])
 
 _ls_parser = argparse.ArgumentParser()
 _ls_parser.add_argument('paths', type=str, nargs='*', default=['.'], help="The directories to list")
 _ls_parser.add_argument("-a", "--all", help="Don't hide entries starting with .", action="store_true")
 _ls_format_group = _ls_parser.add_mutually_exclusive_group()
-#_ls_format_group.add_argument("-l", help="Long listing format", action="store_true")
+_ls_format_group.add_argument("-l", help="Long listing format", action="store_true")
 _ls_format_group.add_argument("-R", "--recursive", help="Show in a tree format", action="store_true")
 
 
@@ -282,6 +353,8 @@ def _ls(args):
 
         if arguments.recursive:
             _tree_list(path, arguments.all)
+        elif arguments.l:
+            _long_list(path, arguments.all)
         else:
             _list_directory(path, arguments.all)
 

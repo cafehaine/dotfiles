@@ -1,10 +1,11 @@
 from xonsh.built_ins import events
 
-# List of blacklisted prefixes for commands
-_NOTIF_BLACKLIST = (
+# List of excluded prefixes for commands
+_NOTIF_EXCLUDED = (
     "vim",
     "man",
     "top",
+    "ssh",
 )
 
 # Minimum duration of execution for notifications
@@ -18,7 +19,7 @@ def _long_cmd_notif(cmd, rtn, out, ts):
     start, finish = ts
     length = finish-start
 
-    if cmd.startswith(_NOTIF_BLACKLIST):
+    if cmd.startswith(_NOTIF_EXCLUDED):
         return
 
     # I should probably use "completion-fail" and "completion-sucess", hovewer
@@ -26,8 +27,8 @@ def _long_cmd_notif(cmd, rtn, out, ts):
 
     if length > _NOTIF_LONG_THRESHOLD:
         if rtn == 0:
-            notify-send --icon=dialog-information-symbolic "Command succeeded" @(cmd)
+            notify-send --icon=/usr/share/icons/Adwaita/256x256/legacy/dialog-information.png "Command succeeded" @(cmd)
             canberra-gtk-play -i dialog-information
         else:
-            notify-send --icon=dialog-error-symbolic "Command failed" @(cmd)
+            notify-send --icon=/usr/share/icons/Adwaita/256x256/legacy/dialog-error.png "Command failed" @(cmd)
             canberra-gtk-play -i dialog-warning

@@ -106,7 +106,7 @@ def _icon_from_mimetype(mimetype: str) -> str:
     return _LS_ICONS['default']
 
 
-def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> NameWidth:
+def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> NameWidth:
     """
     Return a string containing a bunch of ainsi escape codes as well as the "width" of the new name.
     """
@@ -114,23 +114,21 @@ def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> NameWi
 
     width = len(entry.name)
     name = entry.name
-
-    if show_icons:
-        icon = _LS_ICONS['error']
-
-        try:
-            # This is twice as fast as the "intended method"
-            # magic.detect_from_filename(path).mime_type
-            # since the "intended method" seems to run the matching twice
-            mimetype = magic.mime_magic.file(path).split('; ')[0]
-            icon = _icon_from_mimetype(mimetype)
-        except:
-            pass
-
-        name = "{}{}".format(icon, name)
-        width += _LS_ICON_WIDTH
-
+    # if we need to send the ainsi reset sequence
     need_reset = False
+
+    # Show the icon
+    icon = _LS_ICONS['error']
+    try:
+        # This is twice as fast as the "intended method"
+        # magic.detect_from_filename(path).mime_type
+        # since the "intended method" seems to run the matching twice
+        mimetype = magic.mime_magic.file(path).split('; ')[0]
+        icon = _icon_from_mimetype(mimetype)
+    except:
+        pass
+    name = "{}{}".format(icon, name)
+    width += _LS_ICON_WIDTH
 
     # if entry is a directory, add a trailing '/'
     if entry.is_dir():
@@ -139,8 +137,14 @@ def _format_direntry_name(entry: os.DirEntry, show_icons: bool = True) -> NameWi
 
     # if entry is a symlink, underline it
     if entry.is_symlink():
-        name = "\033[4m" + name
-        need_reset = True
+        if show_target:
+            # Show "source -> target" (with some colors)
+            target = os.readlink(entry.path)
+            name = "\033[4m{}\033[0m \033[96m->\033[0m {}".format(name, target)
+            width += 4 + len(target)
+        else:
+            name = "\033[4m" + name
+            need_reset = True
 
     # if entry is executable, make it bold (ignores directories as those must be executable)
     if not entry.is_dir() and os.access(path, os.X_OK):
@@ -257,13 +261,12 @@ def _tree_list(path: str, show_hidden: bool = False, prefix: str = "") -> None:
     """
     Recursively prints a tree structure of the filesystem.
     """
-    #TODO handle properly "loops" of symlinks.
     direntries = _get_entries(path, show_hidden)
     for index, direntry in enumerate(direntries):
         is_last_entry = index == len(direntries) - 1
         entry_prefix = prefix + ("╰─" if is_last_entry else "├─")
-        print("{}{}".format(entry_prefix, _format_direntry_name(direntry).name))
-        if direntry.is_dir():
+        print("{}{}".format(entry_prefix, _format_direntry_name(direntry, True).name))
+        if direntry.is_dir() and not direntry.is_symlink():
             _tree_list(direntry.path, show_hidden, prefix + ("  " if is_last_entry else "│ "))
 
 
@@ -295,6 +298,7 @@ def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: L
     for row in range(max_row):
         row_text = []
         for index, col in enumerate(columns):
+            last_column = index == len(columns) - 1
             text_value = ""
             length = 0
             if len(col) > row:
@@ -309,7 +313,7 @@ def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: L
             if length < column_max_widths[index]:
                 alignment = column_alignments[index]
                 to_pad = column_max_widths[index] - length
-                if alignment == ColumnAlignment.LEFT_ALIGNED:
+                if alignment == ColumnAlignment.LEFT_ALIGNED and not last_column:
                     text_value = text_value + " " * to_pad
                 elif alignment == ColumnAlignment.RIGHT_ALIGNED:
                     text_value = " " * to_pad + text_value
@@ -337,7 +341,7 @@ _ls_format_group.add_argument("-l", help="Long listing format", action="store_tr
 _ls_format_group.add_argument("-R", "--recursive", help="Show in a tree format", action="store_true")
 
 
-def _ls(args):
+def _ls(args, stdin, stdout, stderr):
     """
     My custom ls function.
 
@@ -346,6 +350,12 @@ def _ls(args):
 
     It also displays a tree structure when called with the recursive flag.
     """
+    # If not running from a terminal, use system's "ls" binary.
+    #if not os.isatty(stdout):
+    #    print("not a tty")
+    #    @(["/usr/bin/env", "ls"] + args)
+    #    return
+
     arguments = _ls_parser.parse_args(args)
     for index, path in enumerate(arguments.paths):
         if len(arguments.paths) > 1:

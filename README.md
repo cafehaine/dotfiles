@@ -24,12 +24,12 @@ basic.
 - GUI apps
   - firefox-developer-edition − Get firefox.
   - imv − Like feh, but for wayland
-  - qterminal − a nice terminal with support for ligatures
+  - kitty − a nice terminal with support for ligatures
   - thunar − A lightweight file manager
   - albert − A launcher similar to apple's spotlight
   - mpv − imo the best video player out there
 - CLI apps
-  - bash/readline
+  - xonsh
   - vim
   - top
   - curl

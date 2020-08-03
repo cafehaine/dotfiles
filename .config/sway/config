@@ -17,7 +17,7 @@ focus_follows_mouse no
 floating_modifier $mod
 
 # Applications
-bindsym $mod+Return	exec qterminal
+bindsym $mod+Return	exec kitty
 bindsym $mod+Shift+q	kill
 bindsym $mod+Escape	exec --no-startup-id albert show
 

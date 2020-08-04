@@ -9,6 +9,7 @@ import stat
 from typing import List, Union
 
 import magic
+from xonsh.proc import STDOUT_CAPTURE_KINDS
 
 NameWidth = namedtuple('NameWidth', ['name', 'width'])
 
@@ -240,7 +241,7 @@ def _list_directory(path: str, show_hidden: bool = False) -> None:
         print("[no files]")
         return
 
-    entries = [_format_direntry_name(direntry) for direntry in direntries]
+    entries = [_format_direntry_name(direntry, False) for direntry in direntries]
 
     term_size = shutil.get_terminal_size()
 
@@ -341,7 +342,7 @@ _ls_format_group.add_argument("-l", help="Long listing format", action="store_tr
 _ls_format_group.add_argument("-R", "--recursive", help="Show in a tree format", action="store_true")
 
 
-def _ls(args, stdin, stdout, stderr):
+def _ls(args, stdin, stdout, stderr, spec):
     """
     My custom ls function.
 
@@ -350,11 +351,11 @@ def _ls(args, stdin, stdout, stderr):
 
     It also displays a tree structure when called with the recursive flag.
     """
-    # If not running from a terminal, use system's "ls" binary.
-    #if not os.isatty(stdout):
-    #    print("not a tty")
-    #    @(["/usr/bin/env", "ls"] + args)
-    #    return
+    if spec.captured in STDOUT_CAPTURE_KINDS or not spec.last_in_pipeline:
+        # If not running from a terminal, use system's "ls" binary.
+        #TODO use xonsh's subprocess infrastructure
+        @(["/usr/bin/env", "ls"] + args)
+        return
 
     arguments = _ls_parser.parse_args(args)
     for index, path in enumerate(arguments.paths):

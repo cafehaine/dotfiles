@@ -23,3 +23,10 @@ profile ravenarch_touchscreen {
 	exec swaymsg workspace "9:" output DP-3 && swaymsg workspace "9:"
 	exec swaymsg workspace 1 output HDMI-A-1 && swaymsg workspace 1
 }
+
+profile galifeu_calais {
+	output "Unknown 0x324C 0x00000000" position 0,924
+	output "Ancor Communications Inc ASUS VW220 8BLMVD007754" position 1920,0 transform 90 scale 0.9
+	exec swaymsg workspace "9:" output VGA-1 && swaymsg workspace "9:"
+	exec swaymsg workspace 1 output eDP-1 && swaymsg workspace 1
+}

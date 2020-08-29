@@ -11,6 +11,7 @@ if $(tty) == '/dev/tty1\n' and not "SESSION_STARTED" in ${...}:
     exit
 
 $XONSH_COLOR_STYLE = 'native'
+$CASE_SENSITIVE_COMPLETIONS = False
 xontrib load whole_word_jumping vox
 
 source ~/.config/xonsh/aliases.py

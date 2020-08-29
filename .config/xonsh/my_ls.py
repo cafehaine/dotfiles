@@ -2,10 +2,13 @@ import argparse
 from collections import namedtuple
 from enum import Enum, auto
 from fnmatch import fnmatch
+import grp
 import math
 import os
+import pwd
 import shutil
 import stat
+import time
 from typing import List, Union
 
 import magic
@@ -14,8 +17,8 @@ from xonsh.proc import STDOUT_CAPTURE_KINDS
 NameWidth = namedtuple('NameWidth', ['name', 'width'])
 
 class ColumnAlignment(Enum):
-    LEFT_ALIGNED = auto()
-    RIGHT_ALIGNED = auto()
+    LEFT = auto()
+    RIGHT = auto()
     #TODO CENTERED = auto()
 
 
@@ -343,7 +346,7 @@ def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: L
     Display a table in the terminal.
     """
     if column_alignments is None:
-        column_alignments = [ColumnAlignment.LEFT_ALIGNED for column in columns]
+        column_alignments = [ColumnAlignment.LEFT for column in columns]
 
     column_max_widths = [_column_max_width(column) for column in columns]
 
@@ -367,9 +370,9 @@ def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: L
             if length < column_max_widths[index]:
                 alignment = column_alignments[index]
                 to_pad = column_max_widths[index] - length
-                if alignment == ColumnAlignment.LEFT_ALIGNED and not last_column:
+                if alignment == ColumnAlignment.LEFT and not last_column:
                     text_value = text_value + " " * to_pad
-                elif alignment == ColumnAlignment.RIGHT_ALIGNED:
+                elif alignment == ColumnAlignment.RIGHT:
                     text_value = " " * to_pad + text_value
             row_text.append(text_value)
 
@@ -380,12 +383,30 @@ def _long_list(path: str, show_hidden: bool = False) -> None:
     """
     Display the long list format for a directory.
     """
+    #TODO less "hardcoded" way with a separate function for each column?
     direntries = _get_entries(path, show_hidden)
-    columns = [[],[]]
+    columns = [[],[],[],[],[],[],[]]
     for direntry in direntries:
-        columns[0].append(_format_size(direntry.stat().st_size))
-        columns[1].append(_format_direntry_name(direntry, True).name)
-    _show_table(columns, [ColumnAlignment.RIGHT_ALIGNED, ColumnAlignment.LEFT_ALIGNED])
+        stat = direntry.stat()
+        #TODO better format than just octal base
+        columns[0].append("{:o}".format(stat.st_mode))
+        columns[1].append(str(stat.st_nlink))
+        columns[2].append(pwd.getpwuid(stat.st_uid)[0])
+        columns[3].append(grp.getgrgid(stat.st_gid)[0])
+        columns[4].append(_format_size(stat.st_size))
+        #TODO better format (today, a year ago..)
+        columns[5].append(time.strftime("%x %X", time.gmtime(stat.st_mtime)))
+        columns[6].append(_format_direntry_name(direntry, True).name)
+
+    _show_table(columns, [
+        ColumnAlignment.LEFT,
+        ColumnAlignment.RIGHT,
+        ColumnAlignment.LEFT,
+        ColumnAlignment.LEFT,
+        ColumnAlignment.RIGHT,
+        ColumnAlignment.LEFT,
+        ColumnAlignment.LEFT
+        ])
 
 _ls_parser = argparse.ArgumentParser()
 _ls_parser.add_argument('paths', type=str, nargs='*', default=['.'], help="The directories to list")

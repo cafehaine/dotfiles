@@ -50,15 +50,22 @@ _LS_ICONS = {
     'compressed': "🗜 ",
     'application':"⚙ ",
     'rich_text':  "📰",
-    'java':       "☕",
-    'windows':    "🍷",
-    'python':     "🐍",
-    'php':        "🐘",
-    'linux':      "🐧",
     'stylesheet': "🎨",
     'contacts':   "📇",
     'calendar':   "📅",
     'config':     "🔧",
+    'lock':       "🔒",
+    # os
+    'windows':    "🍷",
+    'linux':      "🐧",
+    # language
+    'java':       "☕",
+    'python':     "🐍",
+    'php':        "🐘",
+    'rust':       "🦀",
+    'lua':        "🌙",
+    'perl':       "🧅",
+    'c':          "𝐂 ",
 }
 
 _LS_COLUMN_SPACING = 2
@@ -100,7 +107,7 @@ _LS_MIMETYPE_ICONS = [
 _LS_EXTENSION_ICONS = [
     # Text
     ({'txt', 'log'}, 'text'),
-    ({'json', 'xml', 'ini', 'conf', 'rc', 'cfg', 'vbox', 'vbox-prev'}, 'config'),
+    ({'json', 'yml', 'toml', 'xml', 'ini', 'conf', 'rc', 'cfg', 'vbox', 'vbox-prev'}, 'config'),
     # Photo
     ({'jpe', 'jpg', 'jpeg', 'png', 'apng', 'gif', 'bmp', 'ico', 'tif', 'tiff', 'tga', 'webp', 'xpm', 'xcf', 'svg'}, 'photo'),
     # Music
@@ -108,23 +115,28 @@ _LS_EXTENSION_ICONS = [
     # Video
     ({'avi', 'mp4'}, 'video'),
     # Rich text
-    ({'pdf', 'odt', 'doc', 'docx', 'html', 'htm', 'xhtm', 'xhtml', 'md', 'rtf', 'tex'}, 'rich_text'),
+    ({'pdf', 'odt', 'doc', 'docx', 'html', 'htm', 'xhtm', 'xhtml', 'md', 'rtf', 'tex', 'rst'}, 'rich_text'),
     # Tabular data/charts
     ({'ods', 'xls', 'xlsx', 'csv'}, 'chart'),
     # Programming languages
-    ({'jar', 'jad'}, 'java'),
-    ({'py'}, 'python'),
+    ({'jar', 'jad', 'java'}, 'java'),
+    ({'py', 'pyc'}, 'python'),
     ({'php'}, 'php'),
+    ({'rs', 'rlib', 'rmeta'}, 'rust'),
+    ({'lua'}, 'lua'),
+    ({'pl'}, 'perl'),
     ({'css', 'less', 'colorscheme', 'theme', 'xsl'}, 'stylesheet'),
+    ({'c', 'h'}, 'c'),
     # Compressed files
     ({'zip', '7z', 'rar', 'gz', 'xz'}, 'compressed'),
     # Executables
     ({'exe', 'bat', 'cmd', 'dll'}, 'windows'),
-    ({'so', 'elf', 'sh', 'xsh', 'zsh', 'ksh', 'pl'}, 'linux'),
+    ({'so', 'elf', 'sh', 'xsh', 'zsh', 'ksh', 'pl', 'o'}, 'linux'),
     # Misc
     ({'iso', 'cue'}, 'iso'),
     ({'vcard'}, 'contacts'),
     ({'ics'}, 'calendar'),
+    ({'lock', 'lck'}, 'lock'),
 ]
 
 

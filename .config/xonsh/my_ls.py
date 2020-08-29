@@ -19,8 +19,19 @@ NameWidth = namedtuple('NameWidth', ['name', 'width'])
 class ColumnAlignment(Enum):
     LEFT = auto()
     RIGHT = auto()
+    IGNORE = auto()
     #TODO CENTERED = auto()
 
+
+_LS_STAT_FILE_TYPE_ICONS = {
+    stat.S_IFSOCK: "🌐",
+    stat.S_IFLNK:  "🔗",
+    stat.S_IFREG:  "📄",
+    stat.S_IFBLK:  "💾",
+    stat.S_IFDIR:  "📁",
+    stat.S_IFCHR:  "🖶 ",
+    stat.S_IFIFO:  "🚿",
+}
 
 # Technically only 1, but kitty uses 2 "cells" for each emoji.
 _LS_ICON_WIDTH = 2
@@ -374,9 +385,20 @@ def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: L
                     text_value = text_value + " " * to_pad
                 elif alignment == ColumnAlignment.RIGHT:
                     text_value = " " * to_pad + text_value
+                elif alignment == ColumnAlignment.IGNORE:
+                    pass
             row_text.append(text_value)
 
         print((" " * _LS_COLUMN_SPACING).join(row_text))
+
+
+def _format_mode(mode: int) -> str:
+    """
+    Format the mode from the stat structure for a file.
+    """
+    file_type = stat.S_IFMT(mode)
+    permissions = mode - file_type
+    return "{}{:4o}".format(_LS_STAT_FILE_TYPE_ICONS[file_type], permissions)
 
 
 def _long_list(path: str, show_hidden: bool = False) -> None:
@@ -388,8 +410,9 @@ def _long_list(path: str, show_hidden: bool = False) -> None:
     columns = [[],[],[],[],[],[],[]]
     for direntry in direntries:
         stat = direntry.stat()
+        stat_no_follow = direntry.stat(follow_symlinks=False)
         #TODO better format than just octal base
-        columns[0].append("{:o}".format(stat.st_mode))
+        columns[0].append(_format_mode(stat_no_follow.st_mode))
         columns[1].append(str(stat.st_nlink))
         columns[2].append(pwd.getpwuid(stat.st_uid)[0])
         columns[3].append(grp.getgrgid(stat.st_gid)[0])
@@ -399,7 +422,7 @@ def _long_list(path: str, show_hidden: bool = False) -> None:
         columns[6].append(_format_direntry_name(direntry, True).name)
 
     _show_table(columns, [
-        ColumnAlignment.LEFT,
+        ColumnAlignment.IGNORE,
         ColumnAlignment.RIGHT,
         ColumnAlignment.LEFT,
         ColumnAlignment.LEFT,

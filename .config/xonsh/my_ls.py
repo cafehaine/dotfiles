@@ -21,6 +21,7 @@ class ColumnAlignment(Enum):
 
 # Technically only 1, but kitty uses 2 "cells" for each emoji.
 _LS_ICON_WIDTH = 2
+#TODO This should be determined per-icon with wcwidth
 
 _LS_ICONS = {
     'default':    "❔",
@@ -47,7 +48,6 @@ _LS_ICONS = {
 
 _LS_COLUMN_SPACING = 2
 
-#TODO use some basic extension-based rules, as magic is quite slow
 # Note that the order matters!
 _LS_MIMETYPE_ICONS = [
     ('inode/directory', 'folder'),
@@ -82,6 +82,35 @@ _LS_MIMETYPE_ICONS = [
     ('video/*', 'video'),
 ]
 
+_LS_EXTENSION_ICONS = [
+    # Text
+    ({'txt', 'json', 'ini', 'conf', 'rc', 'cfg'}, 'text'),
+    # Photo
+    ({'jpe', 'jpg', 'jpeg', 'png', 'apng', 'gif', 'bmp', 'ico', 'tif', 'tiff', 'tga', 'webp', 'xpm', 'xcf', 'svg'}, 'photo'),
+    # Music
+    ({'flac', 'ogg', 'mp3', 'wav'}, 'music'),
+    # Video
+    ({'avi', 'mp4'}, 'video'),
+    # Rich text
+    ({'pdf', 'odt', 'doc', 'docx', 'html', 'htm', 'xhtm', 'xhtml', 'md', 'rtf', 'tex'}, 'rich_text'),
+    # Tabular data/charts
+    ({'ods', 'xls', 'xlsx', 'csv'}, 'chart'),
+    # Programming languages
+    ({'jar', 'jad'}, 'java'),
+    ({'py'}, 'python'),
+    ({'php'}, 'php'),
+    ({'css', 'less', 'colorscheme', 'theme'}, 'stylesheet'),
+    # Compressed files
+    ({'zip', '7z', 'rar', 'gz', 'xz'}, 'compressed'),
+    # Executables
+    ({'exe', 'bat', 'cmd', 'dll'}, 'windows'),
+    ({'so', 'elf'}, 'linux'),
+    # Misc
+    ({'iso', 'cue'}, 'iso'),
+    ({'vcard'}, 'contacts'),
+    ({'ics'}, 'calendar'),
+]
+
 
 def _format_size(size: int) -> str:
     """
@@ -107,27 +136,49 @@ def _icon_from_mimetype(mimetype: str) -> str:
     return _LS_ICONS['default']
 
 
+def _icon_for_direntry(entry: os.DirEntry, real_path: str) -> str:
+    """
+    Return the emoji for a direntry.
+
+    First tries to determine the emoji using the file extension, and then falls
+    back to using mimetypes.
+    """
+    if entry.is_dir(follow_symlinks=True):
+        return _LS_ICONS['folder']
+
+    # Extension based matching
+    _, extension = os.path.splitext(entry.name)
+    extension = extension[1:].lower() # remove leading '.' and use lowercase
+
+    for extensions, icon_name in _LS_EXTENSION_ICONS:
+        if extension in extensions:
+            return _LS_ICONS[icon_name]
+
+    # Fall back to mimetype matching
+    icon = _LS_ICONS['error']
+    try:
+        # This is twice as fast as the "intended method"
+        # magic.detect_from_filename(path).mime_type
+        # since the "intended method" seems to run the matching twice
+        mimetype = magic.mime_magic.file(real_path).split('; ')[0]
+        icon = _icon_from_mimetype(mimetype)
+    except:
+        pass
+    return icon
+
+
 def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> NameWidth:
     """
     Return a string containing a bunch of ainsi escape codes as well as the "width" of the new name.
     """
     path = entry.path if not entry.is_symlink() else os.readlink(entry.path)
-
     width = len(entry.name)
     name = entry.name
     # if we need to send the ainsi reset sequence
     need_reset = False
 
     # Show the icon
-    icon = _LS_ICONS['error']
-    try:
-        # This is twice as fast as the "intended method"
-        # magic.detect_from_filename(path).mime_type
-        # since the "intended method" seems to run the matching twice
-        mimetype = magic.mime_magic.file(path).split('; ')[0]
-        icon = _icon_from_mimetype(mimetype)
-    except:
-        pass
+    icon = _icon_for_direntry(entry, path)
     name = "{}{}".format(icon, name)
     width += _LS_ICON_WIDTH
 

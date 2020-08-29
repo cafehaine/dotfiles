@@ -44,6 +44,7 @@ _LS_ICONS = {
     'stylesheet': "🎨",
     'contacts':   "📇",
     'calendar':   "📅",
+    'config':     "🔧",
 }
 
 _LS_COLUMN_SPACING = 2
@@ -84,7 +85,8 @@ _LS_MIMETYPE_ICONS = [
 
 _LS_EXTENSION_ICONS = [
     # Text
-    ({'txt', 'json', 'ini', 'conf', 'rc', 'cfg'}, 'text'),
+    ({'txt', 'log'}, 'text'),
+    ({'json', 'xml', 'ini', 'conf', 'rc', 'cfg', 'vbox', 'vbox-prev'}, 'config'),
     # Photo
     ({'jpe', 'jpg', 'jpeg', 'png', 'apng', 'gif', 'bmp', 'ico', 'tif', 'tiff', 'tga', 'webp', 'xpm', 'xcf', 'svg'}, 'photo'),
     # Music
@@ -99,12 +101,12 @@ _LS_EXTENSION_ICONS = [
     ({'jar', 'jad'}, 'java'),
     ({'py'}, 'python'),
     ({'php'}, 'php'),
-    ({'css', 'less', 'colorscheme', 'theme'}, 'stylesheet'),
+    ({'css', 'less', 'colorscheme', 'theme', 'xsl'}, 'stylesheet'),
     # Compressed files
     ({'zip', '7z', 'rar', 'gz', 'xz'}, 'compressed'),
     # Executables
     ({'exe', 'bat', 'cmd', 'dll'}, 'windows'),
-    ({'so', 'elf'}, 'linux'),
+    ({'so', 'elf', 'sh', 'xsh', 'zsh', 'ksh', 'pl'}, 'linux'),
     # Misc
     ({'iso', 'cue'}, 'iso'),
     ({'vcard'}, 'contacts'),

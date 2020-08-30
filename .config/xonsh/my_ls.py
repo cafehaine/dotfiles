@@ -23,6 +23,16 @@ class ColumnAlignment(Enum):
     #TODO CENTERED = auto()
 
 
+_LS_COLORS = {
+    'reset':          "\033[0m",
+    'exec':           "\033[1m",
+    'symlink':        "\033[4m",
+    'symlink_target': "\033[96m",
+    'owner_user':     "\033[33m",
+    'owner_group':    "\033[35m",
+    'size_unit':      "\033[36m",
+}
+
 _LS_STAT_FILE_TYPE_ICONS = {
     stat.S_IFSOCK: "🌐",
     stat.S_IFLNK:  "🔗",
@@ -151,7 +161,9 @@ def _format_size(size: int) -> str:
         unit_index += 1
         size /= 1024
 
-    return "{:.1f}{}B".format(size, units[unit_index])
+    unit = units[unit_index] + "B" if unit_index != 0 else "B  "
+
+    return f"{size:.1f}{_LS_COLORS['size_unit']}{unit}{_LS_COLORS['reset']}"
 
 
 def _icon_from_mimetype(mimetype: str) -> str:
@@ -220,19 +232,19 @@ def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> NameW
         if show_target:
             # Show "source -> target" (with some colors)
             target = os.readlink(entry.path)
-            name = "\033[4m{}\033[0m \033[96m->\033[0m {}".format(name, target)
+            name = f"{_LS_COLORS['symlink']}{name}{_LS_COLORS['reset']} {_LS_COLORS['symlink_target']}->{_LS_COLORS['reset']} {target}"
             width += 4 + len(target)
         else:
-            name = "\033[4m" + name
+            name = _LS_COLORS['symlink'] + name
             need_reset = True
 
     # if entry is executable, make it bold (ignores directories as those must be executable)
     if not entry.is_dir() and os.access(path, os.X_OK):
-        name = "\033[1m" + name
+        name = _LS_COLORS['exec'] + name
         need_reset = True
 
     if need_reset:
-        name = name + "\033[0m"
+        name = name + _LS_COLORS['reset']
 
     return NameWidth(name, width)
 
@@ -409,8 +421,9 @@ def _format_mode(mode: int) -> str:
     Format the mode from the stat structure for a file.
     """
     file_type = stat.S_IFMT(mode)
-    permissions = mode - file_type
-    return "{}{:4o}".format(_LS_STAT_FILE_TYPE_ICONS[file_type], permissions)
+    permissions = f"{mode - file_type:4o}"
+    permissions_text = f"{permissions[0]}{_LS_COLORS['owner_user']}{permissions[1]}{_LS_COLORS['reset']}{_LS_COLORS['owner_group']}{permissions[2]}{_LS_COLORS['reset']}{permissions[3]}"
+    return "{}{}".format(_LS_STAT_FILE_TYPE_ICONS[file_type], permissions_text)
 
 
 def _long_list(path: str, show_hidden: bool = False) -> None:
@@ -426,8 +439,8 @@ def _long_list(path: str, show_hidden: bool = False) -> None:
         #TODO better format than just octal base
         columns[0].append(_format_mode(stat_no_follow.st_mode))
         columns[1].append(str(stat.st_nlink))
-        columns[2].append(pwd.getpwuid(stat.st_uid)[0])
-        columns[3].append(grp.getgrgid(stat.st_gid)[0])
+        columns[2].append(f"{_LS_COLORS['owner_user']}{pwd.getpwuid(stat.st_uid)[0]}{_LS_COLORS['reset']}")
+        columns[3].append(f"{_LS_COLORS['owner_group']}{grp.getgrgid(stat.st_gid)[0]}{_LS_COLORS['reset']}")
         columns[4].append(_format_size(stat.st_size))
         #TODO better format (today, a year ago..)
         columns[5].append(time.strftime("%x %X", time.gmtime(stat.st_mtime)))

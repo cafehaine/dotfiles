@@ -1,11 +1,11 @@
 import argparse
-from collections import namedtuple
 from enum import Enum, auto
 from fnmatch import fnmatch
 import grp
 import math
 import os
 import pwd
+import re
 import shutil
 import stat
 import time
@@ -13,8 +13,26 @@ from typing import List, Union
 
 import magic
 from xonsh.proc import STDOUT_CAPTURE_KINDS
+from wcwidth import wcswidth
 
-NameWidth = namedtuple('NameWidth', ['name', 'width'])
+# Shamefully taken from https://stackoverflow.com/a/14693789
+_ANSI_ESCAPE_REGEX = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+
+def _strip_ansi(text: str) -> str:
+    """
+    Remove all ansi escape codes in order to simplify length computation.
+    """
+    return _ANSI_ESCAPE_REGEX.sub("", text)
+
+
+def _text_width(text: str) -> int:
+    """
+    Return the number of terminal cells occupied by some text.
+
+    Handles ANSI escape sequences.
+    """
+    return wcswidth(_strip_ansi(text))
+
 
 class ColumnAlignment(Enum):
     LEFT = auto()
@@ -207,12 +225,11 @@ def _icon_for_direntry(entry: os.DirEntry, real_path: str) -> str:
     return icon
 
 
-def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> NameWidth:
+def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> str:
     """
     Return a string containing a bunch of ainsi escape codes as well as the "width" of the new name.
     """
     path = entry.path if not entry.is_symlink() else os.readlink(entry.path)
-    width = len(entry.name)
     name = entry.name
     # if we need to send the ainsi reset sequence
     need_reset = False
@@ -220,11 +237,9 @@ def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> NameW
     # Show the icon
     icon = _icon_for_direntry(entry, path)
     name = "{}{}".format(icon, name)
-    width += _LS_ICON_WIDTH
 
     # if entry is a directory, add a trailing '/'
     if entry.is_dir():
-        width += 1
         name = name + "/"
 
     # if entry is a symlink, underline it
@@ -233,7 +248,6 @@ def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> NameW
             # Show "source -> target" (with some colors)
             target = os.readlink(entry.path)
             name = f"{_LS_COLORS['symlink']}{name}{_LS_COLORS['reset']} {_LS_COLORS['symlink_target']}->{_LS_COLORS['reset']} {target}"
-            width += 4 + len(target)
         else:
             name = _LS_COLORS['symlink'] + name
             need_reset = True
@@ -246,7 +260,7 @@ def _format_direntry_name(entry: os.DirEntry, show_target: bool = True) -> NameW
     if need_reset:
         name = name + _LS_COLORS['reset']
 
-    return NameWidth(name, width)
+    return name
 
 
 def _direntry_lowercase_name(entry: os.DirEntry) -> str:
@@ -283,18 +297,19 @@ def _get_entries(path: str, show_hidden: bool) -> List[os.DirEntry]:
     return directories + files
 
 
-def _get_column_width(entries: List[Union[NameWidth, str]], columns: int, column: int) -> int:
+def _get_column_width(entries: List[str], columns: int, column: int) -> int:
     """
     Return the width for a specific column when the layout uses a specified count of columns.
     """
     max_width_col = 0
     for i in range(column, len(entries), columns):
-        if entries[i].width > max_width_col:
-            max_width_col = entries[i].width
+        entry_width = _text_width(entries[i])
+        if entry_width > max_width_col:
+            max_width_col = entry_width
     return max_width_col
 
 
-def _compute_width_for_columns(entries: List[NameWidth], columns: int) -> int:
+def _compute_width_for_columns(entries: List[str], columns: int) -> int:
     """
     Return the width occupied by the entries when using the specified column
     count.
@@ -307,12 +322,12 @@ def _compute_width_for_columns(entries: List[NameWidth], columns: int) -> int:
     return sum(column_max_widths) + (columns - 1) * _LS_COLUMN_SPACING
 
 
-def _determine_column_count(entries: List[NameWidth], term_width: int) -> int:
+def _determine_column_count(entries: List[str], term_width: int) -> int:
     """
     Return the number of columns that should be used to display the listing.
     """
     max_column_count = 1
-    min_width = min(entries, key=lambda e: e.width).width
+    min_width = min([_text_width(e) for e in entries])
 
     #TODO This could probably be smaller.
     for i in range(term_width // min_width):
@@ -357,26 +372,19 @@ def _tree_list(path: str, show_hidden: bool = False, prefix: str = "") -> None:
     for index, direntry in enumerate(direntries):
         is_last_entry = index == len(direntries) - 1
         entry_prefix = prefix + ("╰─" if is_last_entry else "├─")
-        print("{}{}".format(entry_prefix, _format_direntry_name(direntry, True).name))
+        print("{}{}".format(entry_prefix, _format_direntry_name(direntry, True)))
         if direntry.is_dir() and not direntry.is_symlink():
             _tree_list(direntry.path, show_hidden, prefix + ("  " if is_last_entry else "│ "))
 
 
-def _column_max_width(column: List[Union[NameWidth, str]]) -> int:
+def _column_max_width(column: List[str]) -> int:
     """
     Return the maximum width for a column.
     """
-    max_width = 0
-    for cell in column:
-        if isinstance(cell, NameWidth):
-            max_width = max(max_width, cell.width)
-        elif isinstance(cell, str):
-            max_width = max(max_width, len(cell))
-
-    return max_width
+    return max([_text_width(cell) for cell in column])
 
 
-def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: List[ColumnAlignment] = None) -> None:
+def _show_table(columns: List[List[str]], column_alignments: List[ColumnAlignment] = None) -> None:
     """
     Display a table in the terminal.
     """
@@ -395,12 +403,8 @@ def _show_table(columns: List[List[Union[NameWidth, str]]], column_alignments: L
             length = 0
             if len(col) > row:
                 cell = col[row]
-                if isinstance(cell, NameWidth):
-                    text_value = cell.name
-                    length = cell.width
-                else:
-                    text_value = cell
-                    length = len(cell)
+                text_value = cell
+                length = _text_width(cell)
 
             if length < column_max_widths[index]:
                 alignment = column_alignments[index]
@@ -444,7 +448,7 @@ def _long_list(path: str, show_hidden: bool = False) -> None:
         columns[4].append(_format_size(stat.st_size))
         #TODO better format (today, a year ago..)
         columns[5].append(time.strftime("%x %X", time.gmtime(stat.st_mtime)))
-        columns[6].append(_format_direntry_name(direntry, True).name)
+        columns[6].append(_format_direntry_name(direntry, True))
 
     _show_table(columns, [
         ColumnAlignment.IGNORE,

@@ -2,7 +2,6 @@
 # Random utils #
 ################
 
-aliases['ls']    = "ls --color=auto"
 aliases['grep']  = "grep --color=auto"
 aliases['diff']  = "diff --color=auto"
 aliases['make']  = "make --jobs=$__threads"

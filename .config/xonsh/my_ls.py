@@ -13,6 +13,7 @@ from typing import List, Union
 
 import magic
 from xonsh.proc import STDOUT_CAPTURE_KINDS
+from xonsh import platform
 from wcwidth import wcswidth
 
 # Shamefully taken from https://stackoverflow.com/a/14693789
@@ -279,7 +280,7 @@ def _get_entries(path: str, show_hidden: bool) -> List[os.DirEntry]:
     files = []
     directories = []
     try:
-        with os.scandir(path) as iterator:
+        with platform.scandir(path) as iterator:
             for entry in iterator:
                 # Skip entries that start with a '.'
                 if not show_hidden and entry.name.startswith('.'):
@@ -381,6 +382,8 @@ def _column_max_width(column: List[str]) -> int:
     """
     Return the maximum width for a column.
     """
+    if not column:
+        return 0
     return max([_text_width(cell) for cell in column])
 
 

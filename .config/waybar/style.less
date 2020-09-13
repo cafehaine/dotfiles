@@ -86,11 +86,19 @@ window#waybar {
 	border-radius: 0;
 }
 
-#workspaces button.focused, #mode {
+#workspaces button.focused {
 	background: @background_hi;
 	label {
 		color: @main_color;
 	}
+}
+
+#mode {
+	border-radius: 14px;
+	background: @background_hi;
+	margin: 2px 4px;
+	padding: 0 9px;
+	font-size: 18px;
 }
 
 #window {

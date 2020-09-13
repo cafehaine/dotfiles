@@ -65,13 +65,18 @@ window#waybar {
 #workspaces button label {
   color: #888888;
 }
-#workspaces button.focused,
-#mode {
+#workspaces button.focused {
   background: #000;
 }
-#workspaces button.focused label,
-#mode label {
+#workspaces button.focused label {
   color: #DEDEDE;
+}
+#mode {
+  border-radius: 14px;
+  background: #000;
+  margin: 2px 4px;
+  padding: 0 9px;
+  font-size: 18px;
 }
 #window {
   font-family: Cantarell;

@@ -1,0 +1,5 @@
+# The config for "magikarp", my macbook pro.
+
+input "1452:567:bcm5974" {
+	tap enabled
+}

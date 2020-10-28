@@ -14,6 +14,13 @@ $XONSH_COLOR_STYLE = 'native'
 $CASE_SENSITIVE_COMPLETIONS = False
 xontrib load whole_word_jumping vox xlsd
 
+# Tweak ls colors (remove most styling)
+$LS_COLORS = {
+	"ln": ("UNDERLINE_DEFAULT",),
+	"or": ("UNDERLINE_RED",),
+	"ex": ("BOLD_DEFAULT",),
+}
+
 source ~/.config/xonsh/aliases.py
 source ~/.config/xonsh/prompt.py
 source ~/.config/xonsh/long_cmd_notif.py

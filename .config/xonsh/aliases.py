@@ -11,6 +11,21 @@ aliases['df']    = "df -h"
 aliases['free']  = "free -h"
 aliases['du']    = "du -d1 -h"
 
+def _serve_dir():
+    """
+    Serve the current directory on port 8000.
+
+    TODO: try other port if current is blocked
+    TODO: add a way to listen to 0.0.0.0
+    """
+    from http.server import SimpleHTTPRequestHandler, HTTPServer
+    httpd = HTTPServer(('127.0.0.1', 8000), SimpleHTTPRequestHandler)
+    print("Listening on 127.0.0.1:8000")
+    print("Press Ctrl+C to stop the server.")
+    httpd.serve_forever()
+
+aliases['serve_dir'] = _serve_dir
+
 #####################
 # Virtual env (vox) #
 #####################
@@ -23,8 +38,8 @@ def _mkvenv():
     # Create a vox virtual environment and activate it
     vox new .venv
     vox activate .venv
-    # Upgrade pip
-    pip install --upgrade pip
+    # Upgrade pip and wheel
+    pip install --upgrade pip wheel
     # Install requirememts if available
     if exists("requirements.txt"):
         pip install -r requirements.txt

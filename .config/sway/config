@@ -102,10 +102,12 @@ bindsym $mod+r mode "resize"
 
 # "System" mode
 mode "system" {
-	bindsym p exec poweroff
-	bindsym e exit
-	bindsym r reload
-	bindsym l exec "systemctl suspend && swaylock -i ~/Pictures/wallpaper.png --scaling fill -F"
+	bindsym p       exec poweroff
+	bindsym e       exit
+	bindsym r       reload
+	bindsym Shift+r exec reboot
+	bindsym l       exec "swaylock -i ~/Pictures/wallpaper.png --scaling fill -F && swaymsg mode default"
+	bindsym Shift+l exec "systemctl suspend && swaylock -i ~/Pictures/wallpaper.png --scaling fill -F && swaymsg mode default"
 
         bindsym Escape mode "default"
         bindsym Return mode "default"

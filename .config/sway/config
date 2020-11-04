@@ -25,7 +25,7 @@ bindsym $mod+F1 exec imv -f ~/Pictures/bepo.png
 
 bindsym $mod+b		exec --no-startup-id firefox-developer-edition
 bindsym $mod+Shift+b	exec --no-startup-id firefox-developer-edition -private-window
-bindsym $mod+e		exec --no-startup-id GDK_BACKEND=x11 thunar
+bindsym $mod+e		exec --no-startup-id thunar
 bindsym $mod+Print	exec grim -g "$(slurp -d)" - | wl-copy
 bindsym Print		exec grim - | wl-copy
 

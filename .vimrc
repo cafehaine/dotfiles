@@ -1,4 +1,6 @@
 set encoding=utf-8
+set shell=/bin/bash
+
 "==============
 " Vundle stuff
 "==============

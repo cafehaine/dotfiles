@@ -1,4 +1,7 @@
 # My dotfiles
+
+![Kitty terminal displaying a directory listing with xlsd](.preview.png)
+
 ## Introduction
 These are the config files that I share between all of my computers (at least 5
 different machines use them). These dotfiles configure anything from the desktop

@@ -8,7 +8,7 @@ include "%L"
 <Multi_key> <b> <e> <e> <r> <s> <space> : "🍻" # beers
 <Multi_key> <o> <k> <space> : "👌" # OK hand
 <Multi_key> <t> <h> <i> <n> <k> <space> : "🤔" # thinking
-<Multi_key> <h> <e> <a> <r> <t> <space> : "❤️" # heart
+<Multi_key> <h> <e> <a> <r> <t> <space> : "❤︎" # heart (not the emoji cause it breaks stuff.)
 <Multi_key> <h> <e> <a> <r> <t> <b> <space> : "💙" # blue heart
 
 # Some keys representations

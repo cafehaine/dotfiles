@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+"""
+This script returns the focused window's geometry to use with grim.
+"""
+from i3ipc import Connection
+
+def main():
+    i3 = Connection()
+    focused = i3.get_tree().find_focused()
+    if focused is None:
+        raise RuntimeError("Could not determine the current focused window.")
+    # Get only the window's contents, without border.
+    rect = focused.rect
+    window_rect = focused.window_rect
+    rect.x += window_rect.x
+    rect.y += window_rect.y
+    rect.width = window_rect.width
+    rect.height = window_rect.height
+    print(f"{rect.x},{rect.y} {rect.width}x{rect.height}")
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
-# Define modifier and include per-device config right after, so that those
-# configs can override the modifier
+# Define some variables that might be overriden by host-specific configs
 set $mod Mod4
+set $firefox firefox-developer-edition
 include "~/.config/sway/$(hostname)"
 
 #workspaces
@@ -23,8 +23,8 @@ bindsym $mod+Escape	exec --no-startup-id albert show
 
 bindsym $mod+F1 exec imv -f ~/Pictures/bepo.png
 
-bindsym $mod+b		exec --no-startup-id firefox-developer-edition
-bindsym $mod+Shift+b	exec --no-startup-id firefox-developer-edition -private-window
+bindsym $mod+b		exec --no-startup-id $firefox
+bindsym $mod+Shift+b	exec --no-startup-id $firefox -private-window
 bindsym $mod+e		exec --no-startup-id thunar
 bindsym $mod+Print	exec grim -g "$(slurp -d)" - | wl-copy
 bindsym Print		exec grim - | wl-copy
@@ -138,7 +138,7 @@ smart_gaps on
 # Fixes
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
-for_window [title="Firefox Developer Edition - Sharing Indicator"] floating enable
+for_window [title="Firefox.* - Sharing Indicator"] floating enable
 for_window [title="Picture-in-Picture"] floating enable
 
 #=====================#

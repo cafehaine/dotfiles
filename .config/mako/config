@@ -3,3 +3,5 @@ background-color=#000000B2
 border-color=#000000E5
 text-color=#FFFFFFFF
 padding=15
+# display on top of fullscreen applications
+layer=overlay

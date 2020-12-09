@@ -83,16 +83,16 @@ bindsym $mod+asterisk       workspace $ws10
 
 # Move container
 #workspaces
-bindsym $mod+Shift+quotedbl move container to workspace 1
-bindsym $mod+Shift+guillemotleft move container to workspace 2
-bindsym $mod+Shift+guillemotright move container to workspace 3
-bindsym $mod+Shift+parenleft move container to workspace 4
-bindsym $mod+Shift+parenright move container to workspace 5
-bindsym $mod+Shift+at move container to workspace 6
-bindsym $mod+Shift+plus move container to workspace 7
-bindsym $mod+Shift+minus move container to workspace 8
-bindsym $mod+Shift+slash move container to workspace $ws9
-bindsym $mod+Shift+asterisk move container to workspace $ws10
+bindsym $mod+Shift+quotedbl       move container to workspace $ws1
+bindsym $mod+Shift+guillemotleft  move container to workspace $ws2
+bindsym $mod+Shift+guillemotright move container to workspace $ws3
+bindsym $mod+Shift+parenleft      move container to workspace $ws4
+bindsym $mod+Shift+parenright     move container to workspace $ws5
+bindsym $mod+Shift+at             move container to workspace $ws6
+bindsym $mod+Shift+plus           move container to workspace $ws7
+bindsym $mod+Shift+minus          move container to workspace $ws8
+bindsym $mod+Shift+slash          move container to workspace $ws9
+bindsym $mod+Shift+asterisk       move container to workspace $ws10
 #relative
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down

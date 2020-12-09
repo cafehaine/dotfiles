@@ -14,9 +14,11 @@
 	ds = diff --staged
 
 	a  = add
+	ap = add --patch
 	A  = add -f
 
 	c  = commit
+	cm = commit -m
 	ca = commit --amend
 	uncommit = reset HEAD~1
 	uc = uncommit

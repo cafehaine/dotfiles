@@ -3,39 +3,49 @@ set $mod Mod4
 set $firefox firefox-developer-edition
 include "~/.config/sway/$(hostname)"
 
-#workspaces
+# Workspaces
 workspace_auto_back_and_forth yes
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8:"
 set $ws9 "9:"
 set $ws10 "10:"
 
-#===========#
-# Bindings  #
-#===========#
+#==========#
+# Bindings #
+#==========#
 
 # Control stuff
 focus_follows_mouse no
 floating_modifier $mod
+bindsym $mod+Shift+q kill
 
 # Applications
-bindsym $mod+Return	exec kitty
-bindsym $mod+Shift+q	kill
-bindsym $mod+Escape	exec --no-startup-id albert show
+bindsym $mod+Return  exec kitty
+bindsym $mod+Escape  exec --no-startup-id albert show
+bindsym $mod+b       exec --no-startup-id $firefox
+bindsym $mod+Shift+b exec --no-startup-id $firefox -private-window
+bindsym $mod+Ctrl+b  exec --no-startup-id QT_QPA_PLATFORM=xcb GDK_BACKEND=x11 torbrowser-launcher
+bindsym $mod+t       exec --no-startup-id thunderbird
+bindsym $mod+g       exec --no-startup-id gimp
+bindsym $mod+e       exec --no-startup-id thunar
 
-bindsym $mod+F1 exec imv -f ~/Pictures/bepo.png
-
-bindsym $mod+b		exec --no-startup-id $firefox
-bindsym $mod+Shift+b	exec --no-startup-id $firefox -private-window
-bindsym $mod+e		exec --no-startup-id thunar
-bindsym $mod+Print	exec grim -g "$(slurp -d)" - | wl-copy
-bindsym Print		exec grim - | wl-copy
-bindsym Ctrl+Print      exec grim -g "$(focused_geometry)" - | wl-copy
+# Screen capture
+bindsym $mod+Print exec grim -g "$(slurp -d)" - | wl-copy
+bindsym Print      exec grim - | wl-copy
+bindsym Ctrl+Print exec grim -g "$(focused_geometry)" - | wl-copy
 
 # Musique
-bindsym --locked XF86AudioPrev exec --no-startup-id	playerctl --player=playerctld previous
-bindsym --locked XF86AudioNext exec --no-startup-id	playerctl --player=playerctld next
-bindsym --locked XF86AudioStop exec --no-startup-id	playerctl --player=playerctld stop
-bindsym --locked XF86AudioPlay exec --no-startup-id	playerctl --player=playerctld play-pause
-bindsym --locked Mod1+Control+Tab exec --no-startup-id	playerctl --player=playerctld play-pause
+bindsym --locked XF86AudioPrev    exec --no-startup-id playerctl --player=playerctld previous
+bindsym --locked XF86AudioNext    exec --no-startup-id playerctl --player=playerctld next
+bindsym --locked XF86AudioStop    exec --no-startup-id playerctl --player=playerctld stop
+bindsym --locked XF86AudioPlay    exec --no-startup-id playerctl --player=playerctld play-pause
+bindsym --locked Mod1+Control+Tab exec --no-startup-id playerctl --player=playerctld play-pause
 bindsym XF86Tools exec ario
 
 # Volume
@@ -44,9 +54,9 @@ bindsym --locked XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume
 bindsym --locked XF86AudioMute        exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle
 
 # Change focus
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
 
 # Change split direction
@@ -60,16 +70,16 @@ bindsym $mod+f fullscreen toggle
 bindsym $mod+Shift+space floating toggle
 
 # Switch workspace
-bindsym $mod+quotedbl workspace 1
-bindsym $mod+guillemotleft workspace 2
-bindsym $mod+guillemotright workspace 3
-bindsym $mod+parenleft workspace 4
-bindsym $mod+parenright workspace 5
-bindsym $mod+at workspace 6
-bindsym $mod+plus workspace 7
-bindsym $mod+minus workspace 8
-bindsym $mod+slash workspace $ws9
-bindsym $mod+asterisk workspace $ws10
+bindsym $mod+quotedbl       workspace $ws1
+bindsym $mod+guillemotleft  workspace $ws2
+bindsym $mod+guillemotright workspace $ws3
+bindsym $mod+parenleft      workspace $ws4
+bindsym $mod+parenright     workspace $ws5
+bindsym $mod+at             workspace $ws6
+bindsym $mod+plus           workspace $ws7
+bindsym $mod+minus          workspace $ws8
+bindsym $mod+slash          workspace $ws9
+bindsym $mod+asterisk       workspace $ws10
 
 # Move container
 #workspaces

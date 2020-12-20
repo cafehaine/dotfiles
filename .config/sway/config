@@ -191,6 +191,6 @@ exec kanshi
 exec_always setrandom --mode scale Pictures/Wallpapers/
 exec mako
 exec redshift -m wayland -t6500K:2400K
-exec QT_QPA_PLATFORM="" albert
+exec albert
 exec bash ~/.startup.sh
 exec clipman -d --max-items=8

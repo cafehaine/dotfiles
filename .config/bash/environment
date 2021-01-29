@@ -46,5 +46,6 @@ export GTK_THEME="Adwaita:dark"
 
 export HISTSIZE=10000
 
+export MPLBACKEND="Qt5Agg"
 # cool for debugging gpu stuff, but it's everywhere with sway.
 #export GALLIUM_HUD="simple,cpu,sensors_temp_cu-amdgpu-pci-0d00.temp1=GPU-temp,GPU-load,VRAM-usage,fps"

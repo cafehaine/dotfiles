@@ -2,10 +2,12 @@
 # Random utils #
 ################
 
+_threads = int($(nproc --ignore=1))
+
 aliases['grep']  = "grep --color=auto"
 aliases['diff']  = "diff --color=auto"
-aliases['make']  = "make --jobs=$__threads"
-aliases['ninja'] = "ninja -j $__threads"
+aliases['make']  = f"make --jobs={_threads}"
+aliases['ninja'] = f"ninja -j {_threads}"
 aliases['lsblk'] = "lsblk -o NAME,SIZE,TYPE,MOUNTPOINT,LABEL,PARTLABEL"
 aliases['df']    = "df -h"
 aliases['free']  = "free -h"
@@ -17,6 +19,7 @@ def _serve_dir():
 
     TODO: try other port if current is blocked
     TODO: add a way to listen to 0.0.0.0
+    TODO: allow passing an optional path argument
     """
     from http.server import SimpleHTTPRequestHandler, HTTPServer
     httpd = HTTPServer(('127.0.0.1', 8000), SimpleHTTPRequestHandler)

@@ -10,7 +10,7 @@ if $(tty) == '/dev/tty1\n' and not "SESSION_STARTED" in ${...}:
     source-bash ~/.config/bash/graphical_session
     exit
 
-$XONSH_COLOR_STYLE = 'native'
+source .config/xonsh/colorscheme.xsh
 $CASE_SENSITIVE_COMPLETIONS = False
 xontrib load whole_word_jumping vox xlsd
 

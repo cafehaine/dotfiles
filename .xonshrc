@@ -1,4 +1,5 @@
 #!/usr/bin/env xonsh
+$XONSH_COLOR_STYLE="default" # Set default style until we define our custom one
 
 #TODO rewrite in python? maybe not.
 source-bash --suppress-skip-message ~/.config/bash/environment

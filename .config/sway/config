@@ -135,15 +135,11 @@ bar {
 }
 
 # Gaps
-default_border pixel 2
+default_border pixel 4
 # Border colors (white when focused, black otherwise)
-client.focused 		#FFFFFF #000000 #FFFFFF #AAAAAA #FFFFFF
-client.focused_inactive	#000000 #000000 #AAAAAA #000000 #000000
-client.unfocused	#000000 #000000 #AAAAAA #000000 #000000
-hide_edge_borders smart
-gaps inner 5
-gaps outer 0
-smart_gaps on
+client.focused 		#FFFFFF #000000 #FFFFFF #FFFFFF #008AFF
+client.focused_inactive	#000000 #000000 #AAAAAA #FFFFFF #666666
+client.unfocused	#000000 #000000 #AAAAAA #FFFFFF #666666
 
 # Fixes
 for_window [window_role="pop-up"] floating enable

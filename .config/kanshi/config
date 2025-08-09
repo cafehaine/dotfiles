@@ -1,32 +1,14 @@
-profile ravenarch {
-	output "Acer Technologies Acer K222HQL T1LEE0054210" position 2944,0 transform 270
-	output "ViewSonic Corporation VX2263 Series U09164161223" position 1024,613
-
-	exec swaymsg workspace "9:" output DP-3 && swaymsg workspace "9:"
-	exec swaymsg workspace "1:" output HDMI-A-1 && swaymsg workspace "1:"
+profile laptop {
+    output eDP-1 position 0,0 mode 1920x1200@59.9990 scale 1.20 transform normal
 }
 
-profile ravenarch_rueil {
-	output "Iiyama North America PLX2380H 11178G3902863" position 0,0
-	output "ViewSonic Corporation VX2263 Series U09164161223" position 1920,156
-	exec swaymsg workspace "10:" output HDMI-A-1
-	exec swaymsg workspace "9:" output HDMI-A-1 && swaymsg workspace "9:"
-	exec swaymsg workspace "1:" output DP-3 && swaymsg workspace "1:"
+profile bureau-kilian {
+    output DP-9 position 0,0 mode 1680x1050@59.9540 scale 1.00 transform 90
+    output DP-7 position 1050,0 mode 1920x1080@60.0000 scale 1.00 transform normal
+    output eDP-1 position 1050,1080 mode 1920x1200@59.9990 scale 1.20 transform normal
 }
 
-profile ravenarch_touchscreen {
-	output "Addi-Data GmbH 0x0004 0x00000001" position 0,1336
-	output "Acer Technologies Acer K222HQL T1LEE0054210" position 2944,0 transform 270
-	output "ViewSonic Corporation VX2263 Series U09164161223" position 1024,613
-
-	exec swaymsg workspace "10:" output DP-2 && swaymsg workspace "10:"
-	exec swaymsg workspace "9:" output DP-3 && swaymsg workspace "9:"
-	exec swaymsg workspace "1:" output HDMI-A-1 && swaymsg workspace "1:"
-}
-
-profile galifeu_calais {
-	output "Unknown 0x324C 0x00000000" position 0,924
-	output "Ancor Communications Inc ASUS VW220 8BLMVD007754" position 1920,0 transform 90 scale 0.9
-	exec swaymsg workspace "9:" output VGA-1 && swaymsg workspace "9:"
-	exec swaymsg workspace "1:" output eDP-1 && swaymsg workspace "1:"
+profile burea-emma {
+    output DP-9 position 0,0 mode 1280x1024@75.0250 scale 0.80 transform normal
+    output eDP-1 position 67,1280 mode 1920x1200@59.9990 scale 1.30 transform normal
 }

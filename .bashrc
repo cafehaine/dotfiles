@@ -1,43 +1,31 @@
-#
-# ~/.bashrc
-#
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Used in sourced files to determine the max number of threads to use
-__threads="$(nproc --ignore 2)"
+shopt -s extglob
+shopt -s globstar
 
-# Environment
-source ~/.config/bash/environment
+# Aliases
+alias hx=helix
+alias ls="ls --color=auto"
+alias mkvenv="python -m venv .venv"
+alias a="source .venv/bin/activate"
 
-# If running trom tty1 and WAYLAND_DISPLAY isn't set, start GUI
-if [ $(tty) == "/dev/tty1" -a -z "$SESSION_STARTED" ]; then
-	source ~/.config/bash/graphical_session
-	exit 0
-else
-	tput setaf 9
-	echo "
- -=[  $USER @ $HOSTNAME  ]=-
-"
-	pgrep obs&>/dev/null
-	if [ $? -eq 0 ]; then
-		echo "TU ES EN TRAIN DE STREAMER FAIS PAS LE CON
-"
-	fi
-	tput sgr0
-fi
 
-# Prompt
+# Rust
+export PATH="${PATH}:/home/kilian/.cargo/bin"
 
-source ~/.config/bash/prompt
+# Vita SDK
+export VITASDK=/usr/local/vitasdk
+export PATH=$VITASDK/bin:$PATH
 
-# Aliases/wrappers
+# Bash stuff
+source /usr/share/doc/pkgfile/command-not-found.bash
+export HISTCONTROL=erasedups
+export HISTSIZE=10000
+shopt -s autocd
+shopt -s extglob
 
-source ~/.config/bash/aliases
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
 
-############################
-# Machine specific configs #
-############################
-
-source ~/.imports
+export EDITOR=helix
+export PATH="${PATH}:/home/kilian/.local/bin"

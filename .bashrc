@@ -10,14 +10,6 @@ alias ls="ls --color=auto"
 alias mkvenv="python -m venv .venv"
 alias a="source .venv/bin/activate"
 
-
-# Rust
-export PATH="${PATH}:/home/kilian/.cargo/bin"
-
-# Vita SDK
-export VITASDK=/usr/local/vitasdk
-export PATH=$VITASDK/bin:$PATH
-
 # Bash stuff
 source /usr/share/doc/pkgfile/command-not-found.bash
 export HISTCONTROL=erasedups
@@ -26,6 +18,3 @@ shopt -s autocd
 shopt -s extglob
 
 [[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
-
-export EDITOR=helix
-export PATH="${PATH}:/home/kilian/.local/bin"

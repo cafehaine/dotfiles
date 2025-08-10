@@ -1,7 +1,7 @@
 /* Reset */
 window#waybar {
   border: none;
-  font-family: Fira Code, "FontAwesome 5 Free Solid";
+  font-family: "Fira Code Nerd Font";
   font-size: 16px;
   min-height: 0;
   color: #DEDEDE;
@@ -10,9 +10,11 @@ window#waybar {
   text-shadow: none;
   background: #141414;
 }
+
 #tray {
   font-family: sans-serif;
 }
+
 /****************/
 /* Info modules */
 /****************/
@@ -27,34 +29,43 @@ window#waybar {
   border-top: solid 2px #FF00FF;
   padding: 4px;
 }
+
 #temperature,
 #cpu {
   border-top-color: #e600e6;
 }
+
 #memory {
   border-top-color: #73e600;
 }
+
 #disk {
   border-top-color: #00bfe6;
 }
+
 #pulseaudio {
   border-top-color: #e67300;
 }
+
 #battery {
   border-top-color: #e6d200;
 }
+
 #network {
   border-top-color: #4c00e6;
 }
+
 /* Good and bad */
 #battery.charging {
   border-color: #26A65B;
 }
+
 #battery.critical:not(.charging),
 #network.disconnected,
 #pulseaudio.muted {
   border-color: #f53c3c;
 }
+
 /**************/
 /* Sway stuff */
 /**************/
@@ -62,15 +73,19 @@ window#waybar {
   padding: 0 4px;
   border-radius: 0;
 }
+
 #workspaces button label {
   color: #888888;
 }
+
 #workspaces button.focused {
   background: #000;
 }
+
 #workspaces button.focused label {
   color: #DEDEDE;
 }
+
 #mode {
   border-radius: 14px;
   background: #000;
@@ -78,11 +93,13 @@ window#waybar {
   padding: 0 9px;
   font-size: 18px;
 }
+
 #window {
   font-family: Cantarell;
   padding-left: 8px;
   color: #888888;
 }
+
 /*********/
 /* Clock */
 /*********/

@@ -1,104 +1,124 @@
 # Define some variables that might be overriden by host-specific configs
 set $mod Mod4
-set $firefox firefox-developer-edition
+set $terminal ghostty
+set $firefox firefox
+set $file_explorer thunar
 include "~/.config/sway/$(hostname)"
 
+# Idle configuration
+
+exec swayidle -w \
+         timeout 60 'swaylock -f -c 000000' \
+         timeout 120 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock -f -c 000000'
+
+# Input configuration:
+
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+input type:keyboard {
+    xkb_layout "fr,fr"
+    xkb_variant "bepo,"
+    xkb_options grp:shifts_toggle
+}
+
+seat * hide_cursor 5000
+
+# Applications
+
+bindsym $mod+Return exec $terminal
+bindsym $mod+Space exec j4-dmenu-desktop -d "wmenu -i"
+bindsym Alt+F2 exec wmenu-run
+bindsym $mod+b exec $firefox
+bindsym $mod+Shift+b exec $firefox --private-window
+bindsym $mod+p exec wdisplays
+bindsym $mod+g exec gimp
+bindsym $mod+e exec $file_explorer
+bindsym $mod+n exec swaync-client -t
+# Sound
+bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5% && ffplay /usr/share/sounds/freedesktop/stereo/bell.oga -nodisp -nostats -hide_banner -autoexit
+bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5% && ffplay /usr/share/sounds/freedesktop/stereo/bell.oga -nodisp -nostats -hide_banner -autoexit
+bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+# Music
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioStop exec playerctl stop
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym XF86Tools exec ario
+# Screen brightness
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+# Screenshot
+bindsym Print exec grim - | wl-copy
+bindsym $mod+Print exec slurp | grim -g - - | wl-copy
+# Misc
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exit
+
 # Workspaces
+
 workspace_auto_back_and_forth yes
-set $ws1 "1:"
-set $ws2 "2:"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8:"
-set $ws9 "9:"
-set $ws10 "10:"
+# Switch to workspace
+bindsym --to-code $mod+quotedbl workspace number 1
+bindsym --to-code $mod+guillemotleft workspace number 2
+bindsym --to-code $mod+guillemotright workspace number 3
+bindsym --to-code $mod+parenleft workspace number 4
+bindsym --to-code $mod+parenright workspace number 5
+bindsym --to-code $mod+at workspace number 6
+bindsym --to-code $mod+plus workspace number 7
+bindsym --to-code $mod+minus workspace number 8
+bindsym --to-code $mod+slash workspace number 9
+bindsym --to-code $mod+asterisk workspace number 10
+# Move focused container to workspace
+bindsym --to-code $mod+Shift+quotedbl move container to workspace number 1
+bindsym --to-code $mod+Shift+guillemotleft move container to workspace number 2
+bindsym --to-code $mod+Shift+guillemotright move container to workspace number 3
+bindsym --to-code $mod+Shift+parenleft move container to workspace number 4
+bindsym --to-code $mod+Shift+parenright move container to workspace number 5
+bindsym --to-code $mod+Shift+at move container to workspace number 6
+bindsym --to-code $mod+Shift+plus move container to workspace number 7
+bindsym --to-code $mod+Shift+minus move container to workspace number 8
+bindsym --to-code $mod+Shift+slash move container to workspace number 9
+bindsym --to-code $mod+Shift+asterisk move container to workspace number 10
 
-#==========#
-# Bindings #
-#==========#
+# Windows
 
-# Control stuff
+default_border pixel 3
 focus_follows_mouse no
 floating_modifier $mod
 bindsym $mod+Shift+q kill
-
-# Applications
-bindsym $mod+Return  exec kitty
-bindsym $mod+Escape  exec --no-startup-id albert show
-bindsym $mod+b       exec --no-startup-id $firefox
-bindsym $mod+Shift+b exec --no-startup-id $firefox -private-window
-bindsym $mod+Ctrl+b  exec --no-startup-id QT_QPA_PLATFORM=xcb GDK_BACKEND=x11 torbrowser-launcher
-bindsym $mod+t       exec --no-startup-id thunderbird
-bindsym $mod+g       exec --no-startup-id gimp
-bindsym $mod+e       exec --no-startup-id thunar
-
-# Screen capture
-bindsym $mod+Print exec grim -g "$(slurp -d)" - | wl-copy
-bindsym Print      exec grim - | wl-copy
-bindsym Ctrl+Print exec grim -g "$(focused_geometry)" - | wl-copy
-
-# Musique
-bindsym --locked XF86AudioPrev    exec --no-startup-id playerctl --player=playerctld previous
-bindsym --locked XF86AudioNext    exec --no-startup-id playerctl --player=playerctld next
-bindsym --locked XF86AudioStop    exec --no-startup-id playerctl --player=playerctld stop
-bindsym --locked XF86AudioPlay    exec --no-startup-id playerctl --player=playerctld play-pause
-bindsym --locked Mod1+Control+Tab exec --no-startup-id playerctl --player=playerctld play-pause
-bindsym XF86Tools exec ario
-
-# Volume
-bindsym --locked XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
-bindsym --locked XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
-bindsym --locked XF86AudioMute        exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle
-
+# Border colors (white when focused, black otherwise)
+client.focused 		#FFFFFF #000000 #FFFFFF #FFFFFF #008AFF
+client.focused_inactive	#000000 #000000 #AAAAAA #FFFFFF #666666
+client.unfocused	#000000 #000000 #AAAAAA #FFFFFF #666666
+# Fixes
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [title="Firefox.* — Sharing Indicator"] floating enable
+for_window [title="Picture-in-Picture"] floating enable
 # Change focus
 bindsym $mod+Left  focus left
 bindsym $mod+Down  focus down
 bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
-
 # Change split direction
 bindsym $mod+h split h
 bindsym $mod+v split v
-
 # Toggle fullscreen
 bindsym $mod+f fullscreen toggle
-
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-
-# Switch workspace
-bindsym $mod+quotedbl       workspace $ws1
-bindsym $mod+guillemotleft  workspace $ws2
-bindsym $mod+guillemotright workspace $ws3
-bindsym $mod+parenleft      workspace $ws4
-bindsym $mod+parenright     workspace $ws5
-bindsym $mod+at             workspace $ws6
-bindsym $mod+plus           workspace $ws7
-bindsym $mod+minus          workspace $ws8
-bindsym $mod+slash          workspace $ws9
-bindsym $mod+asterisk       workspace $ws10
-
-# Move container
-#workspaces
-bindsym $mod+Shift+quotedbl       move container to workspace $ws1
-bindsym $mod+Shift+guillemotleft  move container to workspace $ws2
-bindsym $mod+Shift+guillemotright move container to workspace $ws3
-bindsym $mod+Shift+parenleft      move container to workspace $ws4
-bindsym $mod+Shift+parenright     move container to workspace $ws5
-bindsym $mod+Shift+at             move container to workspace $ws6
-bindsym $mod+Shift+plus           move container to workspace $ws7
-bindsym $mod+Shift+minus          move container to workspace $ws8
-bindsym $mod+Shift+slash          move container to workspace $ws9
-bindsym $mod+Shift+asterisk       move container to workspace $ws10
-#relative
+# Move container relative
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-
 # Resize mode
 mode "resize" {
         bindsym Left resize shrink width 10 px or 2
@@ -111,82 +131,16 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# "System" mode
-mode "system" {
-	bindsym p       exec poweroff
-	bindsym e       exit
-	bindsym r       reload
-	bindsym Shift+r exec reboot
-	bindsym l       exec "swaylock -i ~/Pictures/wallpaper.png --scaling fill -F && swaymsg mode default"
-	bindsym Shift+l exec "systemctl suspend && swaylock -i ~/Pictures/wallpaper.png --scaling fill -F && swaymsg mode default"
+# Bar
 
-        bindsym Escape mode "default"
-        bindsym Return mode "default"
-}
-bindsym $mod+Shift+Return mode "system"
+bar swaybar_command waybar
 
-#=============#
-# Fancy stuff #
-#=============#
+# Daemons
 
-# waybar
-bar {
-	swaybar_command waybar
-}
+exec_always kanshi
+exec_always swaync
+exec_always squeekboard
 
-# Gaps
-default_border pixel 4
-# Border colors (white when focused, black otherwise)
-client.focused 		#FFFFFF #000000 #FFFFFF #FFFFFF #008AFF
-client.focused_inactive	#000000 #000000 #AAAAAA #FFFFFF #666666
-client.unfocused	#000000 #000000 #AAAAAA #FFFFFF #666666
+# Global config
 
-# Fixes
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [title="Firefox.* — Sharing Indicator"] floating enable
-for_window [title="Picture-in-Picture"] floating enable
-
-#=====================#
-# Input tweaks/config #
-#=====================#
-
-# set keyboard layout
-input * {
-	xkb_layout fr,fr
-	xkb_variant bepo,
-	xkb_options compose:caps,grp:shifts_toggle,grp_led:caps
-	# Disable capslock
-	# Use the capslock led as a layout indicator
-	# Change between bépo and azerty by pressing both shift keys
-	xkb_numlock enabled
-}
-
-input "6551:4641:Wireless_Air_mouse_Keyboard" {
-	xkb_layout fr
-}
-
-# map some inputs to screens
-# Desktop drawing tablet
-input "9580:110:HUION_Huion_Tablet_Pen" map_to_output HDMI-A-1
-# Desktop touchscreen
-input "3823:5:WaveShare_WaveShare_Touchscreen" map_to_output DP-1
-
-# auto hide cursor after 5 seconds
-seat * hide_cursor 5000
-
-# scroll horizontally when holding shift
-bindsym Shift+button4 seat * cursor press button6
-bindsym Shift+button5 seat * cursor press button7
-
-#=========#
-# Startup #
-#=========#
-
-exec kanshi
-exec_always setrandom --mode scale Pictures/Wallpapers/
-exec mako
-exec redshift -m wayland -t6500K:2400K
-exec albert
-exec bash ~/.startup.sh
-exec clipman -d --max-items=8
+include /etc/sway/config.d/*

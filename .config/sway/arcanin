@@ -1,0 +1,10 @@
+# Wallpaper
+
+output * bg /home/kilian/Images/arcanin.jpeg fill
+
+# Disable display and touch when lid is closed
+
+bindswitch --locked --reload lid:on output eDP-1 disable ; input type:touch events disabled
+bindswitch --locked --reload lid:off output eDP-1 enable ; input type:touch events enabled
+bindswitch --locked --reload tablet:on exec sway_rotate.py enable
+bindswitch --locked --reload tablet:off exec sway_rotate.py disable --hardware

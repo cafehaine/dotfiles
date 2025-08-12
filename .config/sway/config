@@ -75,6 +75,8 @@ bindsym --to-code $mod+plus workspace number 7
 bindsym --to-code $mod+minus workspace number 8
 bindsym --to-code $mod+slash workspace number 9
 bindsym --to-code $mod+asterisk workspace number 10
+bindgesture --exact swipe:3:left workspace next_on_output
+bindgesture --exact swipe:3:right workspace prev_on_output
 # Move focused container to workspace
 bindsym --to-code $mod+Shift+quotedbl move container to workspace number 1
 bindsym --to-code $mod+Shift+guillemotleft move container to workspace number 2
@@ -93,6 +95,7 @@ default_border pixel 3
 focus_follows_mouse no
 floating_modifier $mod
 bindsym $mod+Shift+q kill
+bindsym $mod+d layout default
 # Border colors (white when focused, black otherwise)
 client.focused 		#FFFFFF #000000 #FFFFFF #FFFFFF #008AFF
 client.focused_inactive	#000000 #000000 #AAAAAA #FFFFFF #666666
@@ -130,6 +133,10 @@ mode "resize" {
         bindsym Return mode "default"
 }
 bindsym $mod+r mode "resize"
+# Tabs
+bindsym $mod+t layout tabbed
+bindsym $mod+Tab focus right
+bindsym $mod+Shift+Tab focus left
 
 # Bar
 

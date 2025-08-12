@@ -136,7 +136,6 @@ async def status(args: Namespace) -> int:
 
     # TODO save in .cache?
     enabled = True
-    print(json.dumps({"text": args.enabled_text}), flush=True)
     # TODO determine by reading current screen disposition?
     orientation = Orientation.UNSET
     server = await asyncio.start_unix_server(on_client_connected, SOCK_PATH)
@@ -144,17 +143,20 @@ async def status(args: Namespace) -> int:
         async with asyncio.TaskGroup() as tg:
             tg.create_task(read_orientation())
             while True:
+                output = {
+                    "text": args.enabled_text if enabled else args.disabled_text,
+                    "tooltip": f"Automatic rotation enabled: {enabled}\nOrientation: {orientation.value}",
+                }
+                print(json.dumps(output), flush=True)
                 event = await event_queue.get()
                 LOGGER.debug("Handling event %r", event)
                 match event:
                     case Command.DISABLE:
                         enabled = False
                         LOGGER.debug("Automatic rotation disabled")
-                        print(json.dumps({"text": args.disabled_text}), flush=True)
                     case Command.ENABLE:
                         enabled = True
                         LOGGER.debug("Automatic rotation enabled")
-                        print(json.dumps({"text": args.enabled_text}), flush=True)
                         await rotate_screen(args.output_name, orientation)
                         LOGGER.debug(
                             "Rotated screen to orientation %s", orientation.value
@@ -165,13 +167,8 @@ async def status(args: Namespace) -> int:
                             "Automatic rotation %s",
                             "enabled" if enabled else "disabled",
                         )
-                        if enabled:
-                            print(json.dumps({"text": args.enabled_text}), flush=True)
-                        else:
-                            print(json.dumps({"text": args.disabled_text}), flush=True)
                     case Command.DISABLE_HARDWARE:
                         enabled = False
-                        print(json.dumps({"text": args.disabled_text}), flush=True)
                         if args.hardware_disabled_orientation != Orientation.UNSET:
                             await rotate_screen(
                                 args.output_name, args.hardware_disabled_orientation

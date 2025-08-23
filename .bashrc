@@ -13,7 +13,7 @@ alias mkvenv="python -m venv .venv"
 alias a="source .venv/bin/activate"
 
 # Bash stuff
-source /usr/share/doc/pkgfile/command-not-found.bash
+[[ -r "/usr/share/doc/pkgfile/command-not-found.bash" ]] && source /usr/share/doc/pkgfile/command-not-found.bash
 export HISTCONTROL=erasedups
 export HISTSIZE=10000
 shopt -s autocd

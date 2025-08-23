@@ -5,7 +5,9 @@ shopt -s extglob
 shopt -s globstar
 
 # Aliases
-alias hx=helix
+if ! which hx 2> /dev/null; then
+  alias hx=helix
+fi
 alias ls="ls --color=auto"
 alias mkvenv="python -m venv .venv"
 alias a="source .venv/bin/activate"

@@ -24,7 +24,12 @@ window#waybar {
 #memory,
 #network,
 #pulseaudio,
-#disk {
+#disk,
+#idle_inhibitor,
+#custom-sway_rotate,
+#backlight,
+#language,
+#power-profiles-daemon {
   margin: 0 8px;
   border-top: solid 2px #FF00FF;
   padding: 4px;

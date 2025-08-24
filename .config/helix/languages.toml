@@ -1,0 +1,18 @@
+# Python
+
+[language-server.pyright]
+command = "pyright-langserver"
+args = [ "--stdio" ]
+
+[[language]]
+name = "python"
+formatter = { command = "black" , args = [ "-" ] }
+language-servers = [ "pyright" ]
+auto-format = true
+
+# Rust
+
+[[language]]
+name = "rust"
+formatter = { command = "rustfmt" , args = [ "--emit" , "stdout" ] }
+auto-format = true

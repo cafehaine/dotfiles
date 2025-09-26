@@ -8,7 +8,17 @@ profile bureau-kilian {
     output eDP-1 position 1050,1080 mode 1920x1200@59.9990 scale 1.20 transform normal
 }
 
+profile bureau-kilian-lid-shut {
+    output DP-9 position 0,0 mode 1680x1050@59.9540 scale 1.00 transform 90
+    output DP-7 position 1050,0 mode 1920x1080@60.0000 scale 1.00 transform normal
+}
+
 profile burea-emma {
     output DP-9 position 0,0 mode 1280x1024@75.0250 scale 0.80 transform normal
     output eDP-1 position 67,1280 mode 1920x1200@59.9990 scale 1.30 transform normal
+}
+
+profile tv-hourtin {
+    output HDMI-A-1 position 0,0 mode 1920x1080@60.0000 scale 1.20 transform normal
+    output eDP-1 position 0,900 mode 1920x1200@59.9990 scale 1.20 transform normal
 }

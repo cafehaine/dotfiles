@@ -1,0 +1,3 @@
+set $terminal foot
+
+input "1267:63:ELAN_Touchscreen" map_to_output LVDS-1

@@ -20,3 +20,4 @@ shopt -s autocd
 shopt -s extglob
 
 [[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
+eval "$(starship init bash)"

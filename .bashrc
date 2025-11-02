@@ -4,9 +4,11 @@
 shopt -s extglob
 shopt -s globstar
 
+export EDITOR=hx
 # Aliases
 if ! which hx 2> /dev/null; then
   alias hx=helix
+  export EDITOR=helix
 fi
 alias ls="ls --color=auto"
 alias mkvenv="python -m venv .venv"

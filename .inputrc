@@ -1,13 +1,16 @@
 $include /etc/inputrc
 
+# Show LS_COLORS when completing
+set colored-completion-prefix on
+set colored-stats on
+
 # Show all results instead of having to press tab twice
 set show-all-if-ambiguous on
 # Case-insensitive completion
 set completion-ignore-case on
 # Make - and _ interchangeable for completion
 set completion-map-case on
-# Colored completion suggestions
-set colored-stats on
+
 # Use up and down arrow to search in the history with the current prefix
 "\e[A": history-search-backward
 "\e[B": history-search-forward

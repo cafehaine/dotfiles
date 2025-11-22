@@ -10,9 +10,9 @@ import os
 import re
 import shutil
 import signal
+import socket
 import subprocess
 import sys
-import traceback
 from types import FrameType
 
 LOGGER = logging.getLogger(__name__)
@@ -30,6 +30,7 @@ class Command(IntEnum):
     ENABLE = 1
     TOGGLE = 2
     DISABLE_HARDWARE = 3
+    PROXY_EVENTS = 4
 
 
 class Orientation(Enum):
@@ -65,18 +66,25 @@ async def rotate_screen(output_name: str, orientation: Orientation):
     assert await process.wait() == 0
 
 
-async def status(args: Namespace) -> int:
+async def status_proxy() -> int:
+    """Proxy status output from main status process."""
+
+    reader, writer = await asyncio.open_unix_connection(SOCK_PATH)
+    writer.write(Command.PROXY_EVENTS.to_bytes())
+    await writer.drain()
+    while True:
+        line = await reader.readline()
+        print(line.decode(), end="", flush=True)
+
+
+async def status_server(sock: socket.socket, args: Namespace) -> int:
+    """Main status process, send rotation requests and monitor sensors."""
     assert shutil.which(
         "monitor-sensor"
     ), "Could not find 'monitor-sensor'. It might be packaged as 'iio-sensor-proxy'."
 
-    # Translate SIGTERMS to SIGINTS (waybar sends SIGTERMS when stopping)
-    def handler(signal: int, frame: FrameType | None):
-        raise KeyboardInterrupt()
-
-    signal.signal(signal.SIGTERM, handler)
-
     event_queue: asyncio.Queue[Command | Orientation] = asyncio.Queue()
+    proxies: set[asyncio.StreamWriter] = set()
 
     async def on_client_connected(
         reader: asyncio.StreamReader, writer: asyncio.StreamWriter
@@ -85,27 +93,20 @@ async def status(args: Namespace) -> int:
         raw_command = await reader.read(1)
         try:
             command = Command(int.from_bytes(raw_command))
-            await event_queue.put(command)
-        except Exception:
-            print(
-                f"Received invalid command from client: {raw_command}",
-                file=sys.stderr,
+            if command is Command.PROXY_EVENTS:
+                LOGGER.info("Registering proxy")
+                proxies.add(writer)
+                await event_queue.put(command)
+                await writer.wait_closed()
+                proxies.remove(writer)
+            else:
+                await event_queue.put(command)
+        except Exception as exc:
+            LOGGER.error(
+                "Received invalid command from client: %s", raw_command, exc_info=exc
             )
-            traceback.print_exc(file=sys.stderr)
         finally:
             writer.close()
-
-    if SOCK_PATH.exists():
-        print(
-            "An instance of 'sway_rotate.py status' is already running!",
-            file=sys.stderr,
-        )
-        print(
-            "If you are certain another instance isn't running, remove the following file:",
-            SOCK_PATH,
-            file=sys.stderr,
-        )
-        return 1
 
     monitor_sensor = await asyncio.create_subprocess_exec(
         "monitor-sensor", "--accel", stdout=subprocess.PIPE
@@ -143,7 +144,7 @@ async def status(args: Namespace) -> int:
     enabled = True
     # TODO determine by reading current screen disposition?
     orientation = Orientation.UNSET
-    server = await asyncio.start_unix_server(on_client_connected, SOCK_PATH)
+    server = await asyncio.start_unix_server(on_client_connected, sock=sock)
     async with server:
         async with asyncio.TaskGroup() as tg:
             tg.create_task(read_orientation())
@@ -151,8 +152,14 @@ async def status(args: Namespace) -> int:
                 output = {
                     "text": args.enabled_text if enabled else args.disabled_text,
                     "tooltip": f"Automatic rotation enabled: {enabled}\nOrientation: {orientation.value}",
+                    "class": ["enabled" if enabled else "disabled", orientation.value],
                 }
-                print(json.dumps(output), flush=True)
+                message = json.dumps(output)
+                print(message, flush=True)
+                for proxy in proxies:
+                    LOGGER.info("Forwarding message to proxy")
+                    proxy.write(message.encode() + b"\n")
+                    tg.create_task(proxy.drain())
                 event = await event_queue.get()
                 LOGGER.debug("Handling event %r", event)
                 match event:
@@ -179,6 +186,8 @@ async def status(args: Namespace) -> int:
                                 args.output_name, args.hardware_disabled_orientation
                             )
                         LOGGER.debug("Automatic rotation disabled (hardware)")
+                    case Command.PROXY_EVENTS:
+                        pass
                     case requested_orientation:
                         orientation = requested_orientation
                         if enabled:
@@ -193,9 +202,36 @@ async def status(args: Namespace) -> int:
                             )
 
 
+async def status(args: Namespace) -> int:
+    sock = socket.socket(
+        socket.AddressFamily.AF_UNIX, type=socket.SocketKind.SOCK_STREAM
+    )
+    bound = False
+    try:
+        sock.bind(str(SOCK_PATH))
+        bound = True
+    except OSError:
+        pass
+
+    if not bound:
+        LOGGER.info(
+            "An instance of 'sway_rotate.py status' is already running, not starting up unix server.",
+        )
+        LOGGER.info(
+            "If you are certain another instance isn't running, remove the following file: %r",
+            SOCK_PATH,
+        )
+        return await status_proxy()
+    else:
+        try:
+            return await status_server(sock, args)
+        finally:
+            sock.close()
+
+
 async def send_command(command: Command) -> int:
     if not SOCK_PATH.exists():
-        print("No instance of 'sway_rotate.py status' found running.", file=sys.stderr)
+        LOGGER.error("No instance of 'sway_rotate.py status' found running.")
         return 1
     _, writer = await asyncio.open_unix_connection(SOCK_PATH)
     writer.write(command.value.to_bytes())
@@ -219,7 +255,15 @@ async def toggle(_: Namespace) -> int:
     return await send_command(Command.TOGGLE)
 
 
+def sigterm_handler(signum: int, _: FrameType | None):
+    """Translate SIGTERMs to SIGINTs (waybar sends SIGTERMS)."""
+    assert signum == signal.Signals.SIGTERM
+    raise KeyboardInterrupt()
+
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, sigterm_handler)
+
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--verbose",

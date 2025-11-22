@@ -66,10 +66,10 @@ async def rotate_screen(output_name: str, orientation: Orientation):
     assert await process.wait() == 0
 
 
-async def status_proxy() -> int:
+async def status_proxy(sock: socket.socket) -> int:
     """Proxy status output from main status process."""
 
-    reader, writer = await asyncio.open_unix_connection(SOCK_PATH)
+    reader, writer = await asyncio.open_unix_connection(sock=sock)
     writer.write(Command.PROXY_EVENTS.to_bytes())
     await writer.drain()
     while True:
@@ -206,14 +206,25 @@ async def status(args: Namespace) -> int:
     sock = socket.socket(
         socket.AddressFamily.AF_UNIX, type=socket.SocketKind.SOCK_STREAM
     )
+    connected = False
     bound = False
     try:
-        sock.bind(str(SOCK_PATH))
-        bound = True
-    except OSError:
-        pass
+        LOGGER.debug("Trying to connect to an existing instance")
+        sock.connect(str(SOCK_PATH))
+        connected = True
+    except (ConnectionRefusedError, FileNotFoundError):
+        try:
+            LOGGER.debug("Connection refused, trying to bind")
+            sock.bind(str(SOCK_PATH))
+            bound = True
+        except OSError as exc:
+            if exc.errno == 98:
+                LOGGER.debug("Couldn't bind, removing file and retrying to bind")
+                os.remove(SOCK_PATH)
+                sock.bind(str(SOCK_PATH))
+                bound = True
 
-    if not bound:
+    if connected:
         LOGGER.info(
             "An instance of 'sway_rotate.py status' is already running, not starting up unix server.",
         )
@@ -221,19 +232,24 @@ async def status(args: Namespace) -> int:
             "If you are certain another instance isn't running, remove the following file: %r",
             SOCK_PATH,
         )
-        return await status_proxy()
-    else:
+        await status_proxy(sock)
+        return 0
+    elif bound:
         try:
             return await status_server(sock, args)
         finally:
             sock.close()
 
+    LOGGER.error("Could neither connect nor bind to socket!")
+    return 1
+
 
 async def send_command(command: Command) -> int:
-    if not SOCK_PATH.exists():
+    try:
+        _, writer = await asyncio.open_unix_connection(SOCK_PATH)
+    except (FileNotFoundError, ConnectionRefusedError):
         LOGGER.error("No instance of 'sway_rotate.py status' found running.")
         return 1
-    _, writer = await asyncio.open_unix_connection(SOCK_PATH)
     writer.write(command.value.to_bytes())
     await writer.drain()
     writer.close()

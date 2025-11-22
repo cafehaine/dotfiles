@@ -55,7 +55,12 @@ async def rotate_screen(output_name: str, orientation: Orientation):
         case Orientation.BOTTOM_UP:
             angle = 180
     process = await asyncio.create_subprocess_exec(
-        "swaymsg", "output", output_name, "transform", str(angle)
+        "swaymsg",
+        "output",
+        output_name,
+        "transform",
+        str(angle),
+        stdout=subprocess.DEVNULL,
     )
     assert await process.wait() == 0
 

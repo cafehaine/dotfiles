@@ -298,4 +298,8 @@ if __name__ == "__main__":
         format="%(asctime)s %(levelname)s %(module)s+%(lineno)d: %(message)s",
     )
 
-    sys.exit(asyncio.run(args.callback(args)))
+    try:
+        exit_code = asyncio.run(args.callback(args))
+        sys.exit(exit_code)
+    except KeyboardInterrupt:
+        sys.exit(0)

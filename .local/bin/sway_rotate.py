@@ -212,17 +212,18 @@ async def status(args: Namespace) -> int:
         LOGGER.debug("Trying to connect to an existing instance")
         sock.connect(str(SOCK_PATH))
         connected = True
-    except (ConnectionRefusedError, FileNotFoundError):
+    except ConnectionRefusedError:
         try:
-            LOGGER.debug("Connection refused, trying to bind")
-            sock.bind(str(SOCK_PATH))
-            bound = True
-        except OSError as exc:
-            if exc.errno == 98:
-                LOGGER.debug("Couldn't bind, removing file and retrying to bind")
-                os.remove(SOCK_PATH)
-                sock.bind(str(SOCK_PATH))
-                bound = True
+            os.remove(SOCK_PATH)
+        except FileNotFoundError:
+            pass
+    except FileNotFoundError:
+        pass
+
+    if not connected:
+        LOGGER.debug("Connection refused, trying to bind")
+        sock.bind(str(SOCK_PATH))
+        bound = True
 
     if connected:
         LOGGER.info(

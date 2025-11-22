@@ -4,8 +4,6 @@
 shopt -s extglob
 shopt -s globstar
 
-export PATH=$PATH:~/.local/bin
-
 export EDITOR=hx
 
 # Aliases

@@ -16,7 +16,6 @@
     ],
     "modules-right": [
         "custom/rotate",
-        "custom/media",
         "mpd",
         "idle_inhibitor",
         "pulseaudio",
@@ -230,17 +229,5 @@
             ]
         },
         "on-click": "pavucontrol"
-    },
-    "custom/media": {
-        "format": "{icon} {text}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
-        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     },
 }

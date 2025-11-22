@@ -4,7 +4,10 @@
 shopt -s extglob
 shopt -s globstar
 
+export PATH=$PATH:~/.local/bin
+
 export EDITOR=hx
+
 # Aliases
 if ! which hx 2> /dev/null; then
   alias hx=helix

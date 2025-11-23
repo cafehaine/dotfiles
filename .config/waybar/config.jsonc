@@ -6,6 +6,7 @@
   // Choose the order of the modules
   "modules-left": [
     "sway/workspaces",
+    "custom/new_workspace",
     "sway/mode",
     "sway/window",
   ],
@@ -13,6 +14,7 @@
     "clock",
   ],
   "modules-right": [
+    "tray",
     "custom/rotate",
     "power-profiles-daemon",
     "mpd",
@@ -25,8 +27,13 @@
     "backlight",
     "keyboard-state",
     "battery",
-    "tray",
+    "custom/close_focused",
   ],
+  /// Module configuration
+  "custom/new_workspace": {
+    "format": "+",
+    "on-click": "sway_new_workspace.py",
+  },
   "sway/mode": {
     "format": "<span style=\"italic\">{}</span>"
   },
@@ -220,4 +227,8 @@
     },
     "on-click": "pavucontrol"
   },
+  "custom/close_focused": {
+    "format": "",
+    "on-click": "swaymsg kill",
+  }
 }

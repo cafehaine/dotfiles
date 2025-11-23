@@ -5,6 +5,7 @@
   "spacing": 4, // Gaps between modules (4px)
   // Choose the order of the modules
   "modules-left": [
+    "custom/app_launcher",
     "sway/workspaces",
     "custom/new_workspace",
     "sway/mode",
@@ -30,6 +31,10 @@
     "custom/close_focused",
   ],
   /// Module configuration
+  "custom/app_launcher": {
+    "format": "󰀻",
+    "on-click": "xfce4-appfinder",
+  },
   "custom/new_workspace": {
     "format": "+",
     "on-click": "sway_new_workspace.py",

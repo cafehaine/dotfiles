@@ -1,0 +1,10 @@
+[Unit]
+Description=Darkman light/dark mode automatic switching
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/darkman run
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

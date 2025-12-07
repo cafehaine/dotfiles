@@ -3,6 +3,7 @@ set $mod Mod4
 set $terminal ghostty
 set $firefox firefox
 set $file_explorer thunar
+set $app_launcher xfce4-appfinder
 include "~/.config/sway/$(hostname)"
 
 # Idle configuration
@@ -41,6 +42,7 @@ bindsym $mod+p exec wdisplays
 bindsym $mod+g exec gimp
 bindsym $mod+e exec $file_explorer
 bindsym $mod+n exec swaync-client -t
+bindgesture --exact swipe:4:up exec $app_launcher
 # Sound
 bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
 bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5% && ffplay /usr/share/sounds/freedesktop/stereo/bell.oga -nodisp -nostats -hide_banner -autoexit
@@ -100,6 +102,7 @@ default_border pixel 3
 focus_follows_mouse no
 floating_modifier $mod
 bindsym $mod+Shift+q kill
+bindgesture --exact swipe:4:down kill
 bindsym $mod+d layout default
 # Border colors (white when focused, black otherwise)
 client.focused 		#FFFFFF #000000 #FFFFFF #FFFFFF #008AFF

@@ -37,7 +37,7 @@
   },
   "custom/new_workspace": {
     "format": "+",
-    "on-click": "sway_new_workspace.py",
+    "on-click": "sway_switch_workspace.py new",
   },
   "sway/mode": {
     "format": "<span style=\"italic\">{}</span>"

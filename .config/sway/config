@@ -76,12 +76,12 @@ bindsym --to-code $mod+plus workspace number 7
 bindsym --to-code $mod+minus workspace number 8
 bindsym --to-code $mod+slash workspace number 9
 bindsym --to-code $mod+asterisk workspace number 10
-bindgesture --exact swipe:3:left workspace next_on_output
-bindgesture --exact swipe:3:right workspace prev_on_output
-bindsym $mod+button4 prev_on_output
-bindsym $mod+button5 next_on_output
-bindsym $mod+button6 prev_on_output
-bindsym $mod+button7 next_on_output
+bindgesture --exact swipe:3:left exec sway_switch_workspace.py next
+bindgesture --exact swipe:3:right exec sway_switch_workspace.py prev
+bindsym $mod+button4 exec sway_switch_workspace.py prev
+bindsym $mod+button5 exec sway_switch_workspace.py next
+bindsym $mod+button6 exec sway_switch_workspace.py prev
+bindsym $mod+button7 exec sway_switch_workspace.py next
 # Move focused container to workspace
 bindsym --to-code $mod+Shift+quotedbl move container to workspace number 1
 bindsym --to-code $mod+Shift+guillemotleft move container to workspace number 2

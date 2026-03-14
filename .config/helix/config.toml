@@ -3,6 +3,7 @@ theme = "catppuccin_latte"
 [editor]
 rulers = [80]
 bufferline = "multiple"
+auto-format = true
 [editor.cursor-shape]
 insert = "bar"
 

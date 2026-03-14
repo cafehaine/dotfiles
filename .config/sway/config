@@ -24,12 +24,13 @@ input type:touchpad {
 }
 
 input type:keyboard {
-    xkb_layout "fr,fr"
-    xkb_variant "bepo,"
+    xkb_layout "fr,fr,us"
+    xkb_variant "bepo,,"
     xkb_options grp:shifts_toggle
 }
 
 seat * hide_cursor 5000
+seat * xcursor_theme default 32
 
 # Applications
 

@@ -18,6 +18,11 @@ profile burea-emma {
     output eDP-1 position 0,1024 mode 1920x1200@59.9990 scale 1.20 transform normal
 }
 
+profile laptop-mini-ecran {
+    output "Addi-Data GmbH *" position 1601,219 mode --custom 1024x600@86Hz scale 1.00 transform normal
+    output eDP-1 position 0,0 mode 1920x1200@59.9990 scale 1.20 transform normal
+}
+
 profile tv-hourtin {
     output HDMI-A-1 position 0,0 mode 1920x1080@60.0000 scale 1.20 transform normal
     output eDP-1 position 0,900 mode 1920x1200@59.9990 scale 1.20 transform normal

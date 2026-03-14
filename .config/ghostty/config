@@ -44,3 +44,4 @@
 
 theme = dark:Catppuccin Frappe,light:Catppuccin Latte
 
+shell-integration-features = no-cursor

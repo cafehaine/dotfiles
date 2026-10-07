@@ -1,6 +1,6 @@
 # Define some variables that might be overriden by host-specific configs
 set $mod Mod4
-set $terminal ghostty
+set $terminal wezterm
 set $firefox firefox
 set $file_explorer thunar
 set $app_launcher xfce4-appfinder
